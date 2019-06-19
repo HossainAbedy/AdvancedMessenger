@@ -1812,8 +1812,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.selectedContact = contact;
       });
     },
-    saveNewMessage: function saveNewMessage(text) {
-      this.messages.push(text);
+    saveNewMessage: function saveNewMessage(message) {
+      this.messages.push(message);
     },
     hanleIncoming: function hanleIncoming(message) {
       if (this.selectedContact && message.from == this.selectedContact.id) {
@@ -60558,8 +60558,8 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "",
-  cluster: "mt1",
+  key: "d2503347d755b9309403",
+  cluster: "ap2",
   encrypted: true
 });
 
