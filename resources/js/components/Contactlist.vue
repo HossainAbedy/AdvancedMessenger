@@ -6,12 +6,15 @@
             @click="selectContact(contact)" 
             :class="{'selected':contact == selected}">
                 <div class="avatar">
-                    <img :src="contact.photo" :alt="contact.name">
+                    <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="contact.photo" :alt="contact.name">
+                    <img v-else class="inactive" :src="contact.photo" :alt="contact.name">
                 </div>
                 <div class="contact">
                     <p class="name">{{contact.name}}</p>
-                     <p class="email">{{contact.email}}</p>
+                    <p class="email">{{contact.email}}</p>
                 </div>
+                <!-- <div class="badge badge-pill badge-success" v-if="(onlines.find(online=>online.name===contact.name))">Active</div>
+                <div class="badge badge-pill badge-danger" v-else>InActive</div> -->
                 <span class="unread" v-if="contact.unread">{{ contact.unread }}</span>
             </li>
         </ul>
@@ -28,7 +31,8 @@
         },
         data(){
             return {
-                selected: this.contacts.length ? this.contacts[0] : null
+                selected: this.contacts.length ? this.contacts[0] : null,
+                onlines:[],
             };
         },
         methods:{
@@ -47,6 +51,21 @@
                     return contact.unread;
                 }]).reverse();
             }
+        },
+        mounted(){
+             Echo.join(`chat`)
+                .here((user) => {
+                   console.log(user);
+                   this.onlines=user;
+                })
+                .joining((user) => {
+                        console.log("joining",user.name);
+                        this.onlines.push(user);
+                })
+                .leaving((user) => {
+                        console.log("leaving",user.name);
+                        this.onlines.splice(this.onlines.indexOf(user),1);
+                });    
         }
     }
 </script>
@@ -56,7 +75,8 @@
         flex:2;
         max-height: 600px;
         overflow: scroll;
-        border-left: 1px solid #a6a6a6; 
+        border-left: 1px solid #a6a6a6;
+        // background: #82e0a8 
     }
     ul {
         list-style-type: none;
@@ -96,11 +116,20 @@
                 align-items:center;
 
                 img{
-                    width: 35px;
+                    width: 45px;
                     border-radius: 60%;
                     margin: 0 auto;
+                    border-width:2px;  
+                    border-style:solid;
+                   
                 }
             }
+            .active{
+               border-color:green;
+                    }
+            .inactive{
+               border-color:red;
+                    }
 
             .contact{
                 flex:3;

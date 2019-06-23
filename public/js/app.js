@@ -1867,6 +1867,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -1876,7 +1879,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      selected: this.contacts.length ? this.contacts[0] : null
+      selected: this.contacts.length ? this.contacts[0] : null,
+      onlines: []
     };
   },
   methods: {
@@ -1897,6 +1901,22 @@ __webpack_require__.r(__webpack_exports__);
         return contact.unread;
       }]).reverse();
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    Echo.join("chat").here(function (user) {
+      console.log(user);
+      _this2.onlines = user;
+    }).joining(function (user) {
+      console.log("joining", user.name);
+
+      _this2.onlines.push(user);
+    }).leaving(function (user) {
+      console.log("leaving", user.name);
+
+      _this2.onlines.splice(_this2.onlines.indexOf(user), 1);
+    });
   }
 });
 
@@ -1932,6 +1952,10 @@ __webpack_require__.r(__webpack_exports__);
     messages: {
       type: Array,
       "default": []
+    },
+    user: {
+      type: Object,
+      required: true
     }
   },
   methods: {
@@ -1973,10 +1997,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    user: {
+      type: Object,
+      required: true
+    },
+    contact: {
+      type: Object
+    }
+  },
   data: function data() {
     return {
-      message: ''
+      message: '',
+      typing: ''
     };
   },
   methods: {
@@ -1990,6 +2029,24 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('send', this.message);
       this.message = '';
     }
+  },
+  watch: {
+    message: function message() {
+      Echo["private"]('chat').whisper('typing', {
+        name: this.message
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    Echo["private"]('chat').listen('ChatEvent', function (e) {}).listenForWhisper('typing', function (e) {
+      if (e.name != '') {
+        _this.typing = 'Typing.....';
+      } else {
+        _this.typing = '';
+      }
+    });
   }
 });
 
@@ -2026,6 +2083,10 @@ __webpack_require__.r(__webpack_exports__);
     messages: {
       type: Array,
       required: true
+    },
+    user: {
+      type: Object,
+      required: true
     }
   },
   methods: {
@@ -2044,6 +2105,9 @@ __webpack_require__.r(__webpack_exports__);
     messages: function messages(_messages) {
       this.scrollToBottom();
     }
+  },
+  mounted: function mounted() {
+    console.log('mounted');
   }
 });
 
@@ -6525,7 +6589,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 600px;\n  overflow: scroll;\n  border-left: 1px solid #a6a6a6;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 35px;\n  border-radius: 60%;\n  margin: 0 auto;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 600px;\n  overflow: scroll;\n  border-left: 1px solid #a6a6a6;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 45px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -6544,7 +6608,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".conversation[data-v-63f956ee] {\n  flex: 5;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.conversation h1[data-v-63f956ee] {\n  font-size: 20px;\n  padding: 10px;\n  margin: 0;\n  border-bottom: 1px dashed lightgrey;\n}", ""]);
+exports.push([module.i, ".conversation[data-v-63f956ee] {\n  flex: 5;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  background: lightseagreen;\n}\n.conversation h1[data-v-63f956ee] {\n  font-size: 20px;\n  padding: 10px;\n  margin: 0;\n  border-bottom: 1px dashed lightgrey;\n}", ""]);
 
 // exports
 
@@ -6582,7 +6646,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 470px;\n  overflow: scroll;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}", ""]);
+exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 470px;\n  overflow: scroll;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}", ""]);
 
 // exports
 
@@ -48109,7 +48173,11 @@ var render = function() {
     { staticClass: "chat-app" },
     [
       _c("Conversation", {
-        attrs: { contact: _vm.selectedContact, messages: _vm.messages },
+        attrs: {
+          user: _vm.user,
+          contact: _vm.selectedContact,
+          messages: _vm.messages
+        },
         on: { new: _vm.saveNewMessage }
       }),
       _vm._v(" "),
@@ -48160,7 +48228,17 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "avatar" }, [
-              _c("img", { attrs: { src: contact.photo, alt: contact.name } })
+              _vm.onlines.find(function(online) {
+                return online.name === contact.name
+              })
+                ? _c("img", {
+                    staticClass: "active",
+                    attrs: { src: contact.photo, alt: contact.name }
+                  })
+                : _c("img", {
+                    staticClass: "inactive",
+                    attrs: { src: contact.photo, alt: contact.name }
+                  })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "contact" }, [
@@ -48212,10 +48290,13 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("MessagesFeed", {
-        attrs: { contact: _vm.contact, messages: _vm.messages }
+        attrs: { user: _vm.user, contact: _vm.contact, messages: _vm.messages }
       }),
       _vm._v(" "),
-      _c("MessagesComposer", { on: { send: _vm.sendMessage } })
+      _c("MessagesComposer", {
+        attrs: { user: _vm.user, contact: _vm.contact },
+        on: { send: _vm.sendMessage }
+      })
     ],
     1
   )
@@ -48242,37 +48323,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "composer" }, [
-    _c("textarea", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.message,
-          expression: "message"
-        }
-      ],
-      attrs: { placeholder: "Message..." },
-      domProps: { value: _vm.message },
-      on: {
-        keydown: function($event) {
-          if (
-            !$event.type.indexOf("key") &&
-            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-          ) {
-            return null
+  return _c(
+    "div",
+    [
+      _vm.typing != ""
+        ? [
+            _c("div", { staticClass: "badge badge-pill badge-warning" }, [
+              _vm._v(_vm._s(_vm.contact.name) + " is " + _vm._s(_vm.typing))
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "composer" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.message,
+              expression: "message"
+            }
+          ],
+          attrs: { placeholder: "Message..." },
+          domProps: { value: _vm.message },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.send($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.message = $event.target.value
+            }
           }
-          return _vm.send($event)
-        },
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.message = $event.target.value
-        }
-      }
-    })
-  ])
+        })
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48311,7 +48406,9 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "text" }, [
-                  _vm._v("\n            " + _vm._s(message.text) + "\n        ")
+                  _vm._v("\n            " + _vm._s(message.text)),
+                  _c("br"),
+                  _c("span", [_vm._v(" " + _vm._s(message.created_at))])
                 ])
               ]
             )

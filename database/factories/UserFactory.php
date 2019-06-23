@@ -37,10 +37,10 @@ $factory->define(User::class, function (Faker $faker) {
     // ];
 
     return [
-        'name' => 'Abedi',
+        'name' => 'Abedin',
         'phone' => '01672791097',
         'photo' => 'http://via.placeholder.com/150x150',
-        'email' => 'abedi.ewu@gmail.com',
+        'email' => 'abedin.ewu@gmail.com',
         'email_verified_at' => now(),
         'password' => bcrypt('123'), // password
         'remember_token' => Str::random(10),

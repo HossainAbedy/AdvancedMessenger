@@ -1,6 +1,6 @@
 <template>
     <div class="chat-app">
-        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"></Conversation>
+        <Conversation :user="user" :contact="selectedContact" :messages="messages" @new="saveNewMessage"></Conversation>
         <Contactlist :contacts="contacts" @selected="startConversationWith"></Contactlist>
     </div>
 </template>
@@ -20,15 +20,15 @@ import Contactlist from './Contactlist';
             return { 
                 selectedContact: null,
                 messages: [],
-                contacts:[]  
+                contacts:[],
             }; 
         },
         mounted() {
             Echo.private(`messages.${this.user.id}`)
                 .listen('NewMessage', (e) => {
                     this.hanleIncoming(e.message);
-                });
-            axios.get('/contacts')
+                })
+                axios.get('/contacts')
                 .then((response) => {
                     this.contacts = response.data;
                 });

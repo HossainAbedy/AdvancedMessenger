@@ -5,7 +5,7 @@
           :class="`message${message.to == contact.id ? ' sent' : ' received'}`" 
           :key="message.id">
             <div class="text">
-                {{message.text}}
+                {{message.text}}<br><span> {{message.created_at}}</span>
             </div>
           </li>
       </ul>
@@ -18,9 +18,13 @@
             contact:{
                 type: Object               
             },
-             messages:{
+            messages:{
                 type: Array,
                 required: true
+            },
+            user:{
+                type:Object,
+                required:true
             }
         },
         methods: {
@@ -28,7 +32,7 @@
                 setTimeout(() => {
                     this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
                 }, 50);
-            }
+            },
         },
         watch: {
             contact(contact) {
@@ -36,8 +40,11 @@
             },
             messages(messages) {
                 this.scrollToBottom();
-            }
-        }     
+            },
+        },
+        mounted(){
+            console.log('mounted');
+        }  
     }
 </script>
  <style lang="scss" scoped>
@@ -62,14 +69,14 @@
                     padding: 12px;
                     display: inline-block;
                 }
-                    &.received{
+                    &.sent{
                         text-align: right;
                         .text{
                             background: #b2b2b2;
                         }
                     }
 
-                    &.sent{
+                    &.received{
                         text-align: left;
                         .text{
                             background: #81c4f9;

@@ -1,14 +1,29 @@
 <template>
+<div>
+    <template v-if="typing != ''">
+            <div class="badge badge-pill badge-warning">{{contact.name}} is {{typing}}</div>
+    </template>
     <div class="composer">
-      <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea> 
+       <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
     </div>
+ </div>   
 </template>
 
 <script>  
     export default {
-        data (){
+       props:{
+            user:{
+                type:Object,
+                required:true
+            },
+            contact:{
+                type: Object               
+            },
+        },
+         data() {
             return {
-               message:'' 
+                message: '',
+                typing:'',
             };
         },
         methods:{
@@ -19,9 +34,29 @@
                }
                this.$emit('send',this.message);
                this.message='';
+            },
+        },
+        watch:{
+            message(){
+                Echo.private('chat')
+                .whisper('typing', {
+                name: this.message
+                });
             }
-        }
-      
+        },
+        mounted() {
+            Echo.private('chat')
+                .listen('ChatEvent', (e) => {
+                    })             
+                .listenForWhisper('typing', (e) => {
+                    if(e.name!=''){
+                       this.typing='Typing.....';
+                    }else{
+                        this.typing='';
+                    }  
+               
+                })
+        },     
     }
 </script>
 
