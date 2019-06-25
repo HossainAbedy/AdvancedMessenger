@@ -21,6 +21,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
+//file upload component
+const VueUploadComponent = require('vue-upload-component')
+Vue.component('file-upload', VueUploadComponent);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

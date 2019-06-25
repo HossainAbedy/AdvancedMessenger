@@ -41,23 +41,36 @@ class ContactsController extends Controller
         // mark all messages with the selected contact as read
         Message::where('from', $id)->where('to', auth()->id())->update(['read' => true]);
         // get all messages between the authenticated user and the selected user
-        $messages = Message::where(function($q) use ($id) {
-            $q->where('from', auth()->id());
-            $q->where('to', $id);
-        })->orWhere(function($q) use ($id) {
-            $q->where('from', $id);
-            $q->where('to', auth()->id());
-        })
-        ->get();
-        return response()->json($messages);
+            $messages = Message::where(function($q) use ($id) {
+                $q->where('from', auth()->id());
+                $q->where('to', $id);
+            })->orWhere(function($q) use ($id) {
+                $q->where('from', $id);
+                $q->where('to', auth()->id());
+            })
+            ->get();
+            return response()->json($messages);
     }
     public function send(Request $request)
     {
+        if(request()->has('file')){
+            $filename = request('file')->store('public/img');
+            $subject = $filename ;
+            $search = 'public/img' ;
+            $trimmed = str_replace($search, '', $subject) ;
+            $message=Message::create([
+                'from' => auth()->id(),
+                'to' => $request->contact_id,
+                'image' => $trimmed,
+                'text' => $request->text
+            ]);
+        }else{
         $message = Message::create([
             'from' => auth()->id(),
             'to' => $request->contact_id,
             'text' => $request->text
         ]);
+        }
         broadcast(new NewMessage($message));
         return response()->json($message);
     }

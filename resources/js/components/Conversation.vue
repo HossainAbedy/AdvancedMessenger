@@ -1,8 +1,10 @@
 <template>
     <div class="conversation">
       <h1>{{contact ? contact.name : 'Select a Contact'}}</h1>
-      <MessagesFeed :user="user" :contact="contact" :messages="messages"></MessagesFeed>
-      <MessagesComposer :user="user" :contact="contact" @send="sendMessage"></MessagesComposer>
+        <template v-if="contact">
+            <MessagesFeed :user="user" :contact="contact" :messages="messages"></MessagesFeed>
+            <MessagesComposer :user="user" :contact="contact" @send="sendMessage"></MessagesComposer>
+        </template>
     </div>
 </template>
 
@@ -52,7 +54,6 @@
     flex-direction: column;
     justify-content: space-between;
     background: lightseagreen;
-
     h1 {
         font-size: 20px;
         padding: 10px;

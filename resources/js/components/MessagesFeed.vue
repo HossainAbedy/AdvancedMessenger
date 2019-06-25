@@ -7,6 +7,9 @@
             <div class="text">
                 {{message.text}}<br><span> {{message.created_at}}</span>
             </div>
+            <div class="image-container">
+                  <img v-if="message.image"  :src="'/storage/img/'+message.image" alt="">
+            </div>
           </li>
       </ul>
     </div>
@@ -51,7 +54,7 @@
  .feed{
      background: #f0f0f0;
      height: 100%;
-     max-height: 470px;
+     max-height: 400px;
      overflow: scroll;
 
      ul {
