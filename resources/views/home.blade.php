@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-info">My Messenger</div>
+                <div class="card-header bg-dark cyan">My Messenger</div>
 
                 <div class="card-body" id="app">
                  <chat-app :user="{{auth()->user()}}"></chat-app>

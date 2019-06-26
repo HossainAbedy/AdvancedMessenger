@@ -5,16 +5,21 @@
     </template>
     <div class="totalcomposer">
         <div class="maincomposer">
-            <div class="floating-div">
-                <picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji…" />
+            <div class="textareaB" v-if="emoStatus">
+                <div class="text"> 
+                    <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
+                </div>
+                <div class="emo">
+                    <picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji…" />
+                </div>
             </div>
-            <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
+            <div class="textareaA" v-else>
+                <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
+            </div>
         </div>
         <div class="sidecomposer">
             <div class="text-right">
-                <button @click="toggleEmo" fab dark small color="pink">
-                    <span>insert_emoticon </span>
-                </button>
+                <a href="#" @click="toggleEmo" class="fa fa-smile fa-2x red"></a>
             </div>
             <div class="text-right">
                 <file-upload
@@ -24,13 +29,11 @@
                     @input-file="$refs.upload.active = true"
                     :headers="{'X-CSRF-TOKEN': token}"
                     :data="{contact_id:contact.id}">
-                    <button class="mt-3">attach_file</button>
+                    <a href="#" class="fas fa-paperclip fa-2x blue"></a>
                 </file-upload> 
             </div>
             <div class="text-right">
-                <button>
-                    <span>Add Friends</span>
-                </button>
+                 <a href="#" class="fas fa-globe fa-2x green"></a>
             </div>
         </div>
     </div>    
@@ -111,18 +114,32 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
 </script>
 
 <style lang="scss" scoped>
-.maincomposer textarea {
-    width: 96%;
-    height: 90%;
+.textareaA textarea{
+    width: 100%;
+    height:100%;
     margin: 10px;
     resize: none;
     border-radius: 2px;
     border: 1px solid lightgrey;
-    padding: 6px;
+    padding: 10px;
 }
-.floating-div{
-    // position: fixed;
+.text textarea{
+    width: 100%;
+    height:100%;
+    border: 1px solid lightgrey;
 }
+.text{
+    flex:50%;
+}
+.emo{
+    flex:50%;
+}
+.textareaB{
+   display: flex;
+}
+// .floating-div{
+//     position: fixed;
+// }
 .totalcomposer{
     display:flex;
 }
@@ -132,5 +149,4 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
 .maincomposer{
     flex:90%;   
 }
-
 </style>

@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.9.0",
         "emoji-mart-vue-fast": "^5.4.14",
         "laravel-echo": "^1.5.3",
         "pusher-js": "^4.4.0",

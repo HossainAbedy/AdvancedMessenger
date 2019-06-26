@@ -38,7 +38,7 @@
                 }).then((response) => {
                     this.$emit('new', response.data);
                 })
-            }
+            },
         },
         components:{
             MessagesFeed,
@@ -53,7 +53,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: lightseagreen;
+    background: lightgrey;
     h1 {
         font-size: 20px;
         padding: 10px;

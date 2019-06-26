@@ -3,9 +3,9 @@
       <ul v-if="contact">
           <li v-for="message in messages" 
           :class="`message${message.to == contact.id ? ' sent' : ' received'}`" 
-          :key="message.id">
+          :key="message.id" @click="showtime">
             <div class="text">
-                {{message.text}}<br><span> {{message.created_at}}</span>
+                {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
             </div>
             <div class="image-container">
                   <img v-if="message.image"  :src="'/storage/img/'+message.image" alt="">
@@ -30,12 +30,20 @@
                 required:true
             }
         },
+        data(){
+            return{
+                showtimechat:false,
+            }
+        },
         methods: {
             scrollToBottom() {
                 setTimeout(() => {
                     this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
                 }, 50);
             },
+            showtime(){
+                this.showtimechat=!this.showtimechat;
+            }
         },
         watch: {
             contact(contact) {
@@ -56,6 +64,7 @@
      height: 100%;
      max-height: 400px;
      overflow: scroll;
+     overflow-x: hidden;
 
      ul {
          list-style-type: none;

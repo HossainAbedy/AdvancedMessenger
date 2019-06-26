@@ -134,6 +134,7 @@
             .contact{
                 flex:3;
                 font-size:10px;
+                overflow-x: hidden;
                 overflow:hidden;
                 display:flex;
                 flex-direction:column;
