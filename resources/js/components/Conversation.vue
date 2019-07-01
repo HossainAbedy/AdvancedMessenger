@@ -1,9 +1,10 @@
 <template>
     <div class="conversation">
-      <h1>{{contact ? contact.name : 'Select a Contact'}}</h1>
+      <h1 v-if="globalmode">Global Chat Room</h1>  
+      <h1 v-else>{{contact ? contact.name : 'Select a Contact'}}</h1>
         <template v-if="contact">
-            <MessagesFeed :user="user" :contact="contact" :messages="messages"></MessagesFeed>
-            <MessagesComposer :user="user" :contact="contact" @send="sendMessage"></MessagesComposer>
+            <MessagesFeed :user="user" :contact="contact" :messages="messages" :globalmode="globalmode"></MessagesFeed>
+            <MessagesComposer :user="user" :contact="contact" @send="sendMessage" @global="switchGlobal"></MessagesComposer>
         </template>
     </div>
 </template>
@@ -27,6 +28,11 @@
                 required:true
             }
         },
+        data() {
+            return {
+                globalmode:false,
+            };
+        },
         methods:{
             sendMessage(text){
             if (!this.contact) {
@@ -39,6 +45,9 @@
                     this.$emit('new', response.data);
                 })
             },
+            switchGlobal(){
+                this.globalmode= !this.globalmode;
+            }
         },
         components:{
             MessagesFeed,

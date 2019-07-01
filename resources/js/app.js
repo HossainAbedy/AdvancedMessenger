@@ -8,6 +8,14 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Vue from 'vue'
+//imported for scroll
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
+//imported for notification
+import Toaster from 'v-toaster'
+import 'v-toaster/dist/v-toaster.css'
+Vue.use(Toaster, {timeout:5000})
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,6 +29,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
+Vue.component('message', require('./components/Message.vue').default);
 //file upload component
 const VueUploadComponent = require('vue-upload-component')
 Vue.component('file-upload', VueUploadComponent);

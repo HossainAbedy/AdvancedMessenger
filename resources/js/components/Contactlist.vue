@@ -7,7 +7,7 @@
             :class="{'selected':contact == selected}">
                 <div class="avatar">
                     <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="contact.photo" :alt="contact.name">
-                    <img v-else class="inactive" :src="contact.photo" :alt="contact.name">
+                    <img v-else class="inactive" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
                 </div>
                 <div class="contact">
                     <p class="name">{{contact.name}}</p>
@@ -120,8 +120,7 @@
                     border-radius: 60%;
                     margin: 0 auto;
                     border-width:2px;  
-                    border-style:solid;
-                   
+                    border-style:solid;               
                 }
             }
             .active{

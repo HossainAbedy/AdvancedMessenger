@@ -21,3 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/contacts', 'ContactsController@get');
 Route::get('/conversation/{id}', 'ContactsController@getMessagesFor');
 Route::post('/conversation/send', 'ContactsController@send');
+
+//globalpart
+Route::get('chat', 'ChatController@chat');
+Route::post('sendG', 'ChatController@sendG');
+Route::post('getOldMessages', 'ChatController@getOldMessages');
+Route::post('saveTosession', 'ChatController@saveTosession');
+Route::post('deleteSession', 'ChatController@deleteSession');
+
+//userpart
+Route::get('/profile', 'UserController@profile');
+Route::post('/profile', 'UserController@update_avatar');

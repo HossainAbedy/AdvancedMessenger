@@ -33,7 +33,7 @@
                 </file-upload> 
             </div>
             <div class="text-right">
-                 <a href="#" class="fas fa-globe fa-2x green"></a>
+                 <a href="#" @click="global" class="fas fa-globe fa-2x green"></a>
             </div>
         </div>
     </div>    
@@ -53,8 +53,11 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                 required:true
             },
             contact:{
-                type: Object               
+                type:Object               
             },
+            globalmode:{
+                type:Boolean,
+            }
         },
          data() {
             return {
@@ -88,6 +91,10 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                 }
                     //  this.emoStatus=false;
                 },
+            global(){
+                this.globamode= !this.globalmode;
+                this.$emit('global',this.globalmode);
+            }    
         },
         watch:{
             message(){
