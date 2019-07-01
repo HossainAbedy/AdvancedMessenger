@@ -48738,7 +48738,10 @@ var render = function() {
               })
                 ? _c("img", {
                     staticClass: "active",
-                    attrs: { src: contact.photo, alt: contact.name }
+                    attrs: {
+                      src: "/uploads/avatars/" + contact.avatar,
+                      alt: contact.name
+                    }
                   })
                 : _c("img", {
                     staticClass: "inactive",

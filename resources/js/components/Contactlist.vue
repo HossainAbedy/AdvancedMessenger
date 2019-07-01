@@ -6,7 +6,7 @@
             @click="selectContact(contact)" 
             :class="{'selected':contact == selected}">
                 <div class="avatar">
-                    <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="contact.photo" :alt="contact.name">
+                    <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
                     <img v-else class="inactive" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
                 </div>
                 <div class="contact">
