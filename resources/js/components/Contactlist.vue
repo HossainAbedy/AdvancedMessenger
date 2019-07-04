@@ -12,6 +12,7 @@
                 <div class="contact">
                     <p class="name">{{contact.name}}</p>
                     <p class="email">{{contact.email}}</p>
+                    <a :href="`/viewprofile/${contact.id}`">Profile</a>
                 </div>
                 <!-- <div class="badge badge-pill badge-success" v-if="(onlines.find(online=>online.name===contact.name))">Active</div>
                 <div class="badge badge-pill badge-danger" v-else>InActive</div> -->
@@ -39,7 +40,7 @@
             selectContact(contact){
                 this.selected=contact;
                 this.$emit('selected',contact);
-            }
+            },
         },
         computed: {
             sortedContacts() {

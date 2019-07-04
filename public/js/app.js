@@ -1870,6 +1870,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -2018,6 +2019,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     badgeclass: function badgeclass() {
       return 'badge-' + this.color + ' ' + this.pos;
+    }
+  },
+  methods: {
+    scrollToBottom: function scrollToBottom() {
+      var _this = this;
+
+      setTimeout(function () {
+        _this.$refs.feed.scrollTop = _this.$refs.feed.scrollHeight - _this.$refs.feed.clientHeight;
+      }, 50);
+    }
+  },
+  watch: {
+    messages: function messages(_messages) {
+      this.scrollToBottom();
     }
   },
   mounted: function mounted() {
@@ -48755,7 +48770,13 @@ var render = function() {
             _c("div", { staticClass: "contact" }, [
               _c("p", { staticClass: "name" }, [_vm._v(_vm._s(contact.name))]),
               _vm._v(" "),
-              _c("p", { staticClass: "email" }, [_vm._v(_vm._s(contact.email))])
+              _c("p", { staticClass: "email" }, [
+                _vm._v(_vm._s(contact.email))
+              ]),
+              _vm._v(" "),
+              _c("a", { attrs: { href: "/viewprofile/" + contact.id } }, [
+                _vm._v("Profile")
+              ])
             ]),
             _vm._v(" "),
             contact.unread
