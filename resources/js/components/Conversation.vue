@@ -47,7 +47,7 @@
             },
             switchGlobal(){
                 this.globalmode= !this.globalmode;
-            }
+            },
         },
         components:{
             MessagesFeed,
