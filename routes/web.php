@@ -31,6 +31,7 @@ Route::post('deleteSession', 'ChatController@deleteSession');
 
 //userpart
 Route::get('/profile', 'UserController@profile');
+Route::put('/updateprofile', 'UserController@updateprofile');
 Route::get('/viewprofile/{id}', 'UserController@viewprofile');
 Route::post('/profile', 'UserController@update_avatar');
 

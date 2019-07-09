@@ -28,6 +28,7 @@
                 align-items: center;
                 display: flex;
                 justify-content: center;
+               
             }
 
             .position-ref {
@@ -42,6 +43,12 @@
 
             .content {
                 text-align: center;
+            }
+
+            .cover {
+                background: url('uploads/cover/cover.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
             }
 
             .title {
@@ -64,6 +71,7 @@
         </style>
     </head>
     <body>
+      <div class= "cover">  
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -85,9 +93,10 @@
                 </div>
 
                 <div class="links">
-                  A realtime free chatting application by Hossain Abedy
+                  <strong>A realtime free chatting application by Hossain Abedy </strong>
                 </div>
             </div>
         </div>
+      </div>  
     </body>
 </html>

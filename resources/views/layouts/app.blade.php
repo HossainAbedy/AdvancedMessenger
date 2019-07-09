@@ -19,9 +19,17 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+<style>
+    .cover {
+                background: url('{{ asset('uploads/cover/cover.jpg') }}');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+</style>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+     <div class="cover">
+        <nav class="navbar navbar-expand-md">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'SaFaRaChAt') }}
@@ -89,6 +97,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+      </div>
     </div>
 </body>
 </html>
