@@ -1838,6 +1838,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -7022,7 +7030,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-169d9eba] {\n  font-size: 30px;\n}\ni[data-v-169d9eba] {\n  font-size: 30px;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 45px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-169d9eba] {\n  font-size: 30px;\n}\ni[data-v-169d9eba] {\n  font-size: 30px;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 55px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -49901,7 +49909,7 @@ var render = function() {
           },
           [
             _vm._v("Find Friends  "),
-            _c("i", { staticClass: "fas fa-angle-double-right" }),
+            _c("i", { staticClass: "fas fa-angle-double-right orange" }),
             _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
           ]
         )
@@ -49916,16 +49924,14 @@ var render = function() {
             on: { click: _vm.togglelist }
           },
           [
-            _c("i", { staticClass: "fas fa-angle-double-left" }),
+            _c("i", { staticClass: "fas fa-angle-double-left blue" }),
             _vm._v("  Friend List "),
             _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
           ]
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.searchfriends
-      ? _c("div", [_vm._v("\n          Look up\n    ")])
-      : _vm._e(),
+    _vm.searchfriends ? _c("div", [_vm._m(0)]) : _vm._e(),
     _vm._v(" "),
     _vm.listfriends
       ? _c("div", [
@@ -49995,7 +50001,43 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "input-group md-form form-sm form-2 pl-0" },
+      [
+        _c("input", {
+          staticClass: "form-control my-0 py-1 red-border",
+          attrs: {
+            type: "text",
+            placeholder: "Search for friends",
+            "aria-label": "Search"
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group-append" }, [
+          _c(
+            "button",
+            {
+              staticClass: "input-group-text red lighten-3",
+              attrs: { id: "basic-text1" }
+            },
+            [
+              _c("i", {
+                staticClass: "fas fa-search text-grey",
+                attrs: { "aria-hidden": "true" }
+              })
+            ]
+          )
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 

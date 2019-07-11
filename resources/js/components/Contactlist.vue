@@ -1,11 +1,19 @@
 <template>
     <div class="contactlist">
 
-       <a class="nav-link btn btn-sm btn-info" v-if="listfriends" @click="togglelist" href="#searchfriend">Find Friends  <i class="fas fa-angle-double-right"></i><span class="sr-only">(current)</span></a>
-       <a class="nav-link btn btn-sm btn-warning" v-if="searchfriends" @click="togglelist" href="#searchfriend"><i class="fas fa-angle-double-left"></i>  Friend List <span class="sr-only">(current)</span></a>
+       <a class="nav-link btn btn-sm btn-info" v-if="listfriends" @click="togglelist" href="#searchfriend">Find Friends  <i class="fas fa-angle-double-right orange"></i><span class="sr-only">(current)</span></a>
+       <a class="nav-link btn btn-sm btn-warning" v-if="searchfriends" @click="togglelist" href="#searchfriend"><i class="fas fa-angle-double-left blue"></i>  Friend List <span class="sr-only">(current)</span></a>
                  
         <div v-if="searchfriends">
-              Look up
+            <div class="input-group md-form form-sm form-2 pl-0">
+                <input class="form-control my-0 py-1 red-border" type="text" placeholder="Search for friends" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="input-group-text red lighten-3" id="basic-text1">
+                        <i class="fas fa-search text-grey"
+                        aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         <div v-if="listfriends">
             <ul>
@@ -143,7 +151,7 @@
                 align-items:center;
 
                 img{
-                    width: 45px;
+                    width: 55px;
                     border-radius: 60%;
                     margin: 0 auto;
                     border-width:2px;  
