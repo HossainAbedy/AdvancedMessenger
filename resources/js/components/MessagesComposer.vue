@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="composer">
     <template v-if="typing != ''">
             <div class="badge badge-pill badge-warning">{{contact.name}} is {{typing}}</div>
     </template>
@@ -121,39 +121,46 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
 </script>
 
 <style lang="scss" scoped>
-.textareaA textarea{
-    width: 100%;
-    height:100%;
-    margin: 10px;
-    resize: none;
-    border-radius: 2px;
-    border: 1px solid lightgrey;
-    padding: 10px;
-}
-.text textarea{
-    width: 100%;
-    height:100%;
-    border: 1px solid lightgrey;
-}
-.text{
-    flex:50%;
-}
-.emo{
-    flex:50%;
-}
-.textareaB{
-   display: flex;
-}
-// .floating-div{
-//     position: fixed;
-// }
-.totalcomposer{
-    display:flex;
-}
-.sidecomposer{
-    flex:10%;
-}
-.maincomposer{
-    flex:90%;   
-}
+    .composer{
+        height: 250px;
+        .textareaA textarea{
+
+            width: 100%;
+            height: 200px;
+            margin: 10px;
+            resize: none;
+            border-radius: 2px;
+            border: 1px solid lightgrey;
+        
+        }
+        .text textarea{
+            width: 100%;
+            height:100%;
+            border: 1px solid lightgrey;
+        }
+        .text{
+            flex:50%;
+        }
+        .emo{
+            flex:50%;
+        }
+        .textareaB{
+        display: flex;
+        }
+        // .floating-div{
+        //     position: fixed;
+        // }
+        .totalcomposer{
+            height: 250px;
+            display:flex;
+        }
+        .sidecomposer{
+            margin:5px;
+            padding:5px;
+            flex:10%;
+        }
+        .maincomposer{
+            flex:90%;   
+        }
+    }
 </style>

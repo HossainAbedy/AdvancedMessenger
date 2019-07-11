@@ -12,6 +12,24 @@ class UserController extends Controller
     public function profile(){
     	return view('profile', array('user' => Auth::user()) );
 	}
+	public function updateprofile(Request $request)
+    {
+		$user = Auth::user();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'welcome_text' => $request->welcome_text,
+			'bio' => $request->bio,
+			'sex' => $request->sex,
+			'birth_date' => $request->birth_date,
+			'work' => $request->work,
+			'education' => $request->education,
+			'religion' => $request->religion,
+			'phone' => $request->phone,
+			'address' => $request->address,
+		]);
+		// $user->update($request->all());
+    }
 	public function viewprofile($id){
 		$userprofile=User::where('id', $id)->get();
     	return view('viewprofile')->with('userprofile',$userprofile);

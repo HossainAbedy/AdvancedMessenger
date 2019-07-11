@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="globalmode">
+        <div v-if="globalmode" class="feed" ref="feed">
             <div class="jumbotron">
                     <!-- <h2 style="color:black;text-align:center"><strong>Real time chatting platform</strong></h2> -->
             <div class="row">
@@ -196,6 +196,7 @@
      max-height: 400px;
      overflow: scroll;
      overflow-x: hidden;
+     
 
      ul {
          list-style-type: none;
