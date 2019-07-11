@@ -6,14 +6,34 @@
                  
         <div v-if="searchfriends">
             <div class="input-group md-form form-sm form-2 pl-0">
-                <input class="form-control my-0 py-1 red-border" type="text" placeholder="Search for friends" aria-label="Search">
+                <input class="form-control my-0 py-1 red-border" v-model="search" type="search" placeholder="Search for friends" aria-label="Search">
                 <div class="input-group-append">
-                    <button class="input-group-text red lighten-3" id="basic-text1">
+                    <button class="input-group-text red lighten-3">
                         <i class="fas fa-search text-grey"
                         aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
+            <div class="users">
+                <ul>
+                 <li v-for="user in filteredusers" :key="user.id">
+                    <div class="avatar">
+                         <a :href="`/viewprofile/${user.id}`">
+                            <img class="user" :src="'/uploads/avatars/'+user.avatar" :alt="user.name">
+                         </a>
+                    </div>
+                    <div class="contact" style="padding-left:20px">
+                        <p class="name" style="font-size:15px">{{user.name}}</p>
+                        <p class="email">{{user.email}}</p>
+                    </div>
+                    <div class="contact">
+                     <button type="button" class="btn btn-success float-right" style="font-size:20px">
+                        <i class="fas fa-user-plus"></i>
+                     </button>
+                    </div>
+                 </li>
+                </ul>      
+            </div>    
         </div>
         <div v-if="listfriends">
             <ul>
@@ -47,14 +67,19 @@
             contacts:{
                 type: Array,
                 default:[]
+            },
+            users:{
+                type: Array,
+                default:[]
             }
         },
         data(){
             return {
                 selected: this.contacts.length ? this.contacts[0] : null,
                 onlines:[],
-                searchfriends: false,
-                listfriends:true,
+                searchfriends: true,
+                listfriends:false,
+                search: '',
             };
         },
         methods:{
@@ -66,6 +91,9 @@
                 this.searchfriends =! this.searchfriends;
                 this.listfriends =! this.listfriends;
             },
+            searchit: _.debounce(() => {
+                Fire.$emit('searching');
+            },1000),
         },
         computed: {
             sortedContacts() {
@@ -76,6 +104,11 @@
 
                     return contact.unread;
                 }]).reverse();
+            },
+            filteredusers: function(){
+                return this.users.filter((user)=>{
+                    return user.name.match(this.search);
+                });
             }
         },
         mounted(){
@@ -163,6 +196,9 @@
                     }
             .inactive{
                border-color:red;
+                    }
+            .user{
+               border-color:black;
                     }
 
             .contact{

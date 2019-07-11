@@ -1741,7 +1741,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selectedContact: null,
       messages: [],
-      contacts: []
+      contacts: [],
+      users: []
     };
   },
   mounted: function mounted() {
@@ -1752,6 +1753,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.get('/contacts').then(function (response) {
       _this.contacts = response.data;
+      _this.users = response.data;
     });
   },
   components: {
@@ -1846,9 +1848,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
+      type: Array,
+      "default": []
+    },
+    users: {
       type: Array,
       "default": []
     }
@@ -1857,8 +1883,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selected: this.contacts.length ? this.contacts[0] : null,
       onlines: [],
-      searchfriends: false,
-      listfriends: true
+      searchfriends: true,
+      listfriends: false,
+      search: ''
     };
   },
   methods: {
@@ -1869,7 +1896,10 @@ __webpack_require__.r(__webpack_exports__);
     togglelist: function togglelist() {
       this.searchfriends = !this.searchfriends;
       this.listfriends = !this.listfriends;
-    }
+    },
+    searchit: _.debounce(function () {
+      Fire.$emit('searching');
+    }, 1000)
   },
   computed: {
     sortedContacts: function sortedContacts() {
@@ -1882,22 +1912,29 @@ __webpack_require__.r(__webpack_exports__);
 
         return contact.unread;
       }]).reverse();
+    },
+    filteredusers: function filteredusers() {
+      var _this2 = this;
+
+      return this.users.filter(function (user) {
+        return user.name.match(_this2.search);
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     Echo.join("chat").here(function (user) {
       console.log(user);
-      _this2.onlines = user;
+      _this3.onlines = user;
     }).joining(function (user) {
       console.log("joining", user.name);
 
-      _this2.onlines.push(user);
+      _this3.onlines.push(user);
     }).leaving(function (user) {
       console.log("leaving", user.name);
 
-      _this2.onlines.splice(_this2.onlines.indexOf(user), 1);
+      _this3.onlines.splice(_this3.onlines.indexOf(user), 1);
     });
   }
 });
@@ -7030,7 +7067,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-169d9eba] {\n  font-size: 30px;\n}\ni[data-v-169d9eba] {\n  font-size: 30px;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 55px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-169d9eba] {\n  font-size: 30px;\n}\ni[data-v-169d9eba] {\n  font-size: 30px;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 55px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .user[data-v-169d9eba] {\n  border-color: black;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -49869,7 +49906,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("Contactlist", {
-        attrs: { contacts: _vm.contacts },
+        attrs: { users: _vm.users, contacts: _vm.contacts },
         on: { selected: _vm.startConversationWith }
       })
     ],
@@ -49931,7 +49968,89 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.searchfriends ? _c("div", [_vm._m(0)]) : _vm._e(),
+    _vm.searchfriends
+      ? _c("div", [
+          _c(
+            "div",
+            { staticClass: "input-group md-form form-sm form-2 pl-0" },
+            [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control my-0 py-1 red-border",
+                attrs: {
+                  type: "search",
+                  placeholder: "Search for friends",
+                  "aria-label": "Search"
+                },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0)
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "users" }, [
+            _c(
+              "ul",
+              _vm._l(_vm.filteredusers, function(user) {
+                return _c("li", { key: user.id }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("a", { attrs: { href: "/viewprofile/" + user.id } }, [
+                      _c("img", {
+                        staticClass: "user",
+                        attrs: {
+                          src: "/uploads/avatars/" + user.avatar,
+                          alt: user.name
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "contact",
+                      staticStyle: { "padding-left": "20px" }
+                    },
+                    [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "name",
+                          staticStyle: { "font-size": "15px" }
+                        },
+                        [_vm._v(_vm._s(user.name))]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "email" }, [
+                        _vm._v(_vm._s(user.email))
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(1, true)
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _vm.listfriends
       ? _c("div", [
@@ -50006,36 +50125,30 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "input-group md-form form-sm form-2 pl-0" },
-      [
-        _c("input", {
-          staticClass: "form-control my-0 py-1 red-border",
-          attrs: {
-            type: "text",
-            placeholder: "Search for friends",
-            "aria-label": "Search"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-append" }, [
-          _c(
-            "button",
-            {
-              staticClass: "input-group-text red lighten-3",
-              attrs: { id: "basic-text1" }
-            },
-            [
-              _c("i", {
-                staticClass: "fas fa-search text-grey",
-                attrs: { "aria-hidden": "true" }
-              })
-            ]
-          )
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c("button", { staticClass: "input-group-text red lighten-3" }, [
+        _c("i", {
+          staticClass: "fas fa-search text-grey",
+          attrs: { "aria-hidden": "true" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "contact" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success float-right",
+          staticStyle: { "font-size": "20px" },
+          attrs: { type: "button" }
+        },
+        [_c("i", { staticClass: "fas fa-user-plus" })]
+      )
+    ])
   }
 ]
 render._withStripped = true
