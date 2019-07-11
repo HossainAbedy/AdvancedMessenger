@@ -21,9 +21,10 @@
 </head>
 <style>
     .cover {
-                background: url('{{ asset('uploads/cover/cover.jpg') }}');
+                background-image: url('{{ asset('uploads/cover/cover.jpg') }}');
                 background-repeat: no-repeat;
                 background-size: cover;
+                height: 1500px;
             }
 </style>
 <body>

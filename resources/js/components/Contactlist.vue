@@ -1,24 +1,35 @@
 <template>
     <div class="contactlist">
-        <ul>
-            <li v-for="contact in sortedContacts" 
-            :key="contact.id" 
-            @click="selectContact(contact)" 
-            :class="{'selected':contact == selected}">
-                <div class="avatar">
-                    <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
-                    <img v-else class="inactive" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
-                </div>
-                <div class="contact">
-                    <p class="name">{{contact.name}}</p>
-                    <p class="email">{{contact.email}}</p>
-                    <a :href="`/viewprofile/${contact.id}`">Profile</a>
-                </div>
-                <!-- <div class="badge badge-pill badge-success" v-if="(onlines.find(online=>online.name===contact.name))">Active</div>
-                <div class="badge badge-pill badge-danger" v-else>InActive</div> -->
-                <span class="unread" v-if="contact.unread">{{ contact.unread }}</span>
-            </li>
-        </ul>
+
+       <a class="nav-link btn btn-sm btn-info" v-if="listfriends" @click="togglelist" href="#searchfriend">Find Friends  <i class="fas fa-angle-double-right"></i><span class="sr-only">(current)</span></a>
+       <a class="nav-link btn btn-sm btn-warning" v-if="searchfriends" @click="togglelist" href="#searchfriend"><i class="fas fa-angle-double-left"></i>  Friend List <span class="sr-only">(current)</span></a>
+                 
+        <div v-if="searchfriends">
+              Look up
+        </div>
+        <div v-if="listfriends">
+            <ul>
+                <li v-for="contact in sortedContacts" 
+                    :key="contact.id" 
+                    @click="selectContact(contact)" 
+                    :class="{'selected':contact == selected}">
+                    <div class="avatar">
+                         <a :href="`/viewprofile/${contact.id}`">
+                            <img v-if="(onlines.find(online=>online.name===contact.name))" class="active" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
+                            <img v-else class="inactive" :src="'/uploads/avatars/'+contact.avatar" :alt="contact.name">
+                         </a>
+                    </div>
+                    <div class="contact">
+                        <p class="name" style="font-size:20px">{{contact.name}}</p>
+                        <p class="email">{{contact.welcome_text}}</p>
+                        <!-- <a :href="`/viewprofile/${contact.id}`">Profile</a> -->
+                    </div>
+                        <!-- <div class="badge badge-pill badge-success" v-if="(onlines.find(online=>online.name===contact.name))">Active</div>
+                        <div class="badge badge-pill badge-danger" v-else>InActive</div> -->
+                    <span class="unread" v-if="contact.unread">{{ contact.unread }}</span>
+                </li>
+            </ul>
+        </div>    
     </div>
 </template>
 
@@ -34,12 +45,18 @@
             return {
                 selected: this.contacts.length ? this.contacts[0] : null,
                 onlines:[],
+                searchfriends: false,
+                listfriends:true,
             };
         },
         methods:{
             selectContact(contact){
                 this.selected=contact;
                 this.$emit('selected',contact);
+            },
+           togglelist(){
+                this.searchfriends =! this.searchfriends;
+                this.listfriends =! this.listfriends;
             },
         },
         computed: {
@@ -74,10 +91,19 @@
 <style lang="scss" scoped>
     .contactlist{
         flex:2;
-        max-height: 600px;
+        max-height: 700px;
         overflow: scroll;
+        overflow-x: hidden;
         border-left: 1px solid #a6a6a6;
         // background: #82e0a8 
+    }
+    a  {
+        font-size: 30px;
+        
+    }
+    i  {
+        font-size: 30px;
+       
     }
     ul {
         list-style-type: none;

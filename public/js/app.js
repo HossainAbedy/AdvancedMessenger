@@ -1827,6 +1827,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -1837,13 +1848,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       selected: this.contacts.length ? this.contacts[0] : null,
-      onlines: []
+      onlines: [],
+      searchfriends: false,
+      listfriends: true
     };
   },
   methods: {
     selectContact: function selectContact(contact) {
       this.selected = contact;
       this.$emit('selected', contact);
+    },
+    togglelist: function togglelist() {
+      this.searchfriends = !this.searchfriends;
+      this.listfriends = !this.listfriends;
     }
   },
   computed: {
@@ -2499,7 +2516,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: new Form({
-        id: '',
         name: '',
         email: '',
         welcome_text: '',
@@ -6987,7 +7003,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".chat-app[data-v-1da0bc8e] {\n  display: flex;\n}", ""]);
+exports.push([module.i, ".chat-app[data-v-1da0bc8e] {\n  display: flex;\n  height: 700px;\n}", ""]);
 
 // exports
 
@@ -7006,7 +7022,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 600px;\n  overflow: scroll;\n  border-left: 1px solid #a6a6a6;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 45px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".contactlist[data-v-169d9eba] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-169d9eba] {\n  font-size: 30px;\n}\ni[data-v-169d9eba] {\n  font-size: 30px;\n}\nul[data-v-169d9eba] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-169d9eba] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-169d9eba] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-169d9eba] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-169d9eba] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-169d9eba] {\n  width: 45px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-169d9eba] {\n  border-color: green;\n}\nul li .inactive[data-v-169d9eba] {\n  border-color: red;\n}\nul li .contact[data-v-169d9eba] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-169d9eba] {\n  margin: 0;\n}\nul li .contact p.name[data-v-169d9eba] {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -7044,7 +7060,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".textareaA textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 100%;\n  margin: 10px;\n  resize: none;\n  border-radius: 2px;\n  border: 1px solid lightgrey;\n  padding: 10px;\n}\n.text textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 100%;\n  border: 1px solid lightgrey;\n}\n.text[data-v-64aa86f7] {\n  flex: 50%;\n}\n.emo[data-v-64aa86f7] {\n  flex: 50%;\n}\n.textareaB[data-v-64aa86f7] {\n  display: flex;\n}\n.totalcomposer[data-v-64aa86f7] {\n  display: flex;\n}\n.sidecomposer[data-v-64aa86f7] {\n  flex: 10%;\n}\n.maincomposer[data-v-64aa86f7] {\n  flex: 90%;\n}", ""]);
+exports.push([module.i, ".composer[data-v-64aa86f7] {\n  height: 250px;\n}\n.composer .textareaA textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 200px;\n  margin: 10px;\n  resize: none;\n  border-radius: 2px;\n  border: 1px solid lightgrey;\n}\n.composer .text textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 100%;\n  border: 1px solid lightgrey;\n}\n.composer .text[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .emo[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .textareaB[data-v-64aa86f7] {\n  display: flex;\n}\n.composer .totalcomposer[data-v-64aa86f7] {\n  height: 250px;\n  display: flex;\n}\n.composer .sidecomposer[data-v-64aa86f7] {\n  margin: 5px;\n  padding: 5px;\n  flex: 10%;\n}\n.composer .maincomposer[data-v-64aa86f7] {\n  flex: 90%;\n}", ""]);
 
 // exports
 
@@ -7082,7 +7098,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".emoji-mart,\n.emoji-mart * {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  line-height: 1.15;\n}\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  /* display: inline-block; */\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  height: 420px;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff;\n}\n\n.emoji-mart-emoji {\n  padding: 6px;\n  position: relative;\n  display: inline-block;\n  font-size: 0;\n}\n\n.emoji-mart-emoji span {\n  display: inline-block;\n}\n\n.emoji-mart-preview-emoji .emoji-mart-emoji span {\n  width: 38px;\n  height: 38px;\n  font-size: 32px;\n}\n\n.emoji-type-native {\n  font-family: \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Segoe UI\", \"Apple Color Emoji\", \"Twemoji Mozilla\", \"Noto Color Emoji\", \"EmojiOne Color\", \"Android Emoji\";\n  word-break: keep-all;\n}\n\n.emoji-type-image {\n  background-size: 5200%;\n}\n.emoji-type-image.emoji-set-emojione {\n  background-image: url(\"https://unpkg.com/emoji-datasource-emojione@4.0.4/img/emojione/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-messenger {\n  background-image: url(\"https://unpkg.com/emoji-datasource-messenger@4.0.4/img/messenger/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-apple {\n  background-image: url(\"https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-facebook {\n  background-image: url(\"https://unpkg.com/emoji-datasource-facebook@4.0.4/img/facebook/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-google {\n  background-image: url(\"https://unpkg.com/emoji-datasource-google@4.0.4/img/google/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-twitter {\n  background-image: url(\"https://unpkg.com/emoji-datasource-twitter@4.0.4/img/twitter/sheets-256/64.png\");\n}\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9;\n}\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n\n.emoji-mart-anchors {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0;\n}\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  -webkit-transition: color .1s ease-out;\n  -o-transition: color .1s ease-out;\n  transition: color .1s ease-out;\n}\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646;\n}\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0;\n}\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px; left: 0;\n  width: 100%; height: 3px;\n  background-color: #464646;\n}\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px;\n}\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px;\n}\n\n.emoji-mart .scroller {\n  height: 250px;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0 6px 6px 6px;\n  z-index: 0; /* Fix for rendering sticky positioned category labels on Chrome */\n  will-change: transform; /* avoids \"repaints on scroll\" in mobile Chrome */\n  -webkit-overflow-scrolling: touch;\n}\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px;\n}\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0;\n}\n.emoji-mart-search-results {\n  height: 250px;\n  overflow-y: scroll;\n}\n\n.emoji-mart-category {\n  position: relative;\n}\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: default;\n}\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0; left: 0;\n  width: 100%; height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%;\n  opacity: 0;\n}\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  opacity: 1;\n}\n\n.emoji-mart-category-label {\n  /* z-index: 2; */\n  /* position: relative; */\n  /* position: -webkit-sticky; */\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n}\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, .95);\n}\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0;\n}\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585;\n}\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none;\n}\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em;\n}\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none;\n}\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px;\n}\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  -webkit-transform: translateY(-50%);\n      -ms-transform: translateY(-50%);\n          transform: translateY(-50%);\n}\n\n.emoji-mart-preview-emoji {\n  left: 12px;\n}\n\n.emoji-mart-preview-data {\n  left: 68px; right: 12px;\n  word-break: break-all;\n}\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right;\n}\n\n.emoji-mart-preview-name {\n  font-size: 14px;\n}\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888;\n}\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em;\n}\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb;\n}\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle;\n}\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0;\n}\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 21px;\n  font-weight: 300;\n}\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff;\n}\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px;\n}\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75;\n}\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  -webkit-transition-property: width, padding;\n  -o-transition-property: width, padding;\n  transition-property: width, padding;\n  -webkit-transition-duration: .125s;\n       -o-transition-duration: .125s;\n          transition-duration: .125s;\n  -webkit-transition-timing-function: ease-out;\n       -o-transition-timing-function: ease-out;\n          transition-timing-function: ease-out;\n}\n\n.emoji-mart-skin-swatch:nth-child(1) { -webkit-transition-delay: 0s; -o-transition-delay: 0s; transition-delay: 0s }\n.emoji-mart-skin-swatch:nth-child(2) { -webkit-transition-delay: .03s; -o-transition-delay: .03s; transition-delay: .03s }\n.emoji-mart-skin-swatch:nth-child(3) { -webkit-transition-delay: .06s; -o-transition-delay: .06s; transition-delay: .06s }\n.emoji-mart-skin-swatch:nth-child(4) { -webkit-transition-delay: .09s; -o-transition-delay: .09s; transition-delay: .09s }\n.emoji-mart-skin-swatch:nth-child(5) { -webkit-transition-delay: .12s; -o-transition-delay: .12s; transition-delay: .12s }\n.emoji-mart-skin-swatch:nth-child(6) { -webkit-transition-delay: .15s; -o-transition-delay: .15s; transition-delay: .15s }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px;\n}\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%; left: 50%;\n  width: 4px; height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  -webkit-transition: opacity .2s ease-out;\n  -o-transition: opacity .2s ease-out;\n  transition: opacity .2s ease-out;\n}\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%; padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%;\n}\n\n.emoji-mart-skin-tone-1 { background-color: #ffc93a }\n.emoji-mart-skin-tone-2 { background-color: #fadcbc }\n.emoji-mart-skin-tone-3 { background-color: #e0bb95 }\n.emoji-mart-skin-tone-4 { background-color: #bf8f68 }\n.emoji-mart-skin-tone-5 { background-color: #9b643d }\n.emoji-mart-skin-tone-6 { background-color: #594539 }\n\n\n/* vue-virtual-scroller/dist/vue-virtual-scroller.css */\n.vue-recycle-scroller{position:relative}.vue-recycle-scroller.direction-vertical:not(.page-mode){overflow-y:auto}.vue-recycle-scroller.direction-horizontal:not(.page-mode){overflow-x:auto}.vue-recycle-scroller.direction-horizontal{display:-webkit-box;display:-ms-flexbox;display:flex}.vue-recycle-scroller__slot{-webkit-box-flex:1;-ms-flex:auto 0 0px;flex:auto 0 0}.vue-recycle-scroller__item-wrapper{-webkit-box-flex:1;-ms-flex:1;flex:1;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;position:relative}.vue-recycle-scroller.ready .vue-recycle-scroller__item-view{position:absolute;top:0;left:0;will-change:transform}.vue-recycle-scroller.direction-vertical .vue-recycle-scroller__item-wrapper{width:100%}.vue-recycle-scroller.direction-horizontal .vue-recycle-scroller__item-wrapper{height:100%}.vue-recycle-scroller.ready.direction-vertical .vue-recycle-scroller__item-view{width:100%}.vue-recycle-scroller.ready.direction-horizontal .vue-recycle-scroller__item-view{height:100%}.resize-observer[data-v-b329ee4c]{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;border:none;background-color:transparent;pointer-events:none;display:block;overflow:hidden;opacity:0}.resize-observer[data-v-b329ee4c] object{display:block;position:absolute;top:0;left:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1}\n", ""]);
+exports.push([module.i, ".emoji-mart,\n.emoji-mart * {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  line-height: 1.15;\n}\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  /* display: inline-block; */\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  height: 250px;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff;\n}\n\n.emoji-mart-emoji {\n  padding: 6px;\n  position: relative;\n  display: inline-block;\n  font-size: 0;\n}\n\n.emoji-mart-emoji span {\n  display: inline-block;\n}\n\n.emoji-mart-preview-emoji .emoji-mart-emoji span {\n  width: 38px;\n  height: 38px;\n  font-size: 32px;\n}\n\n.emoji-type-native {\n  font-family: \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Segoe UI\", \"Apple Color Emoji\", \"Twemoji Mozilla\", \"Noto Color Emoji\", \"EmojiOne Color\", \"Android Emoji\";\n  word-break: keep-all;\n}\n\n.emoji-type-image {\n  background-size: 5200%;\n}\n.emoji-type-image.emoji-set-emojione {\n  background-image: url(\"https://unpkg.com/emoji-datasource-emojione@4.0.4/img/emojione/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-messenger {\n  background-image: url(\"https://unpkg.com/emoji-datasource-messenger@4.0.4/img/messenger/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-apple {\n  background-image: url(\"https://unpkg.com/emoji-datasource-apple@4.0.4/img/apple/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-facebook {\n  background-image: url(\"https://unpkg.com/emoji-datasource-facebook@4.0.4/img/facebook/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-google {\n  background-image: url(\"https://unpkg.com/emoji-datasource-google@4.0.4/img/google/sheets-256/64.png\");\n}\n.emoji-type-image.emoji-set-twitter {\n  background-image: url(\"https://unpkg.com/emoji-datasource-twitter@4.0.4/img/twitter/sheets-256/64.png\");\n}\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9;\n}\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n\n.emoji-mart-anchors {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0;\n}\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  -webkit-transition: color .1s ease-out;\n  -o-transition: color .1s ease-out;\n  transition: color .1s ease-out;\n}\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646;\n}\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0;\n}\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px; left: 0;\n  width: 100%; height: 3px;\n  background-color: #464646;\n}\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px;\n}\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px;\n}\n\n.emoji-mart .scroller {\n  height: 250px;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0 6px 6px 6px;\n  z-index: 0; /* Fix for rendering sticky positioned category labels on Chrome */\n  will-change: transform; /* avoids \"repaints on scroll\" in mobile Chrome */\n  -webkit-overflow-scrolling: touch;\n}\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px;\n}\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0;\n}\n.emoji-mart-search-results {\n  height: 250px;\n  overflow-y: scroll;\n}\n\n.emoji-mart-category {\n  position: relative;\n}\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: default;\n}\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0; left: 0;\n  width: 100%; height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%;\n  opacity: 0;\n}\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  opacity: 1;\n}\n\n.emoji-mart-category-label {\n  /* z-index: 2; */\n  /* position: relative; */\n  /* position: -webkit-sticky; */\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n}\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, .95);\n}\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0;\n}\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585;\n}\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none;\n}\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em;\n}\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none;\n}\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px;\n}\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  -webkit-transform: translateY(-50%);\n      -ms-transform: translateY(-50%);\n          transform: translateY(-50%);\n}\n\n.emoji-mart-preview-emoji {\n  left: 12px;\n}\n\n.emoji-mart-preview-data {\n  left: 68px; right: 12px;\n  word-break: break-all;\n}\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right;\n}\n\n.emoji-mart-preview-name {\n  font-size: 14px;\n}\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888;\n}\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em;\n}\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb;\n}\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle;\n}\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0;\n}\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 21px;\n  font-weight: 300;\n}\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff;\n}\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px;\n}\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75;\n}\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  -webkit-transition-property: width, padding;\n  -o-transition-property: width, padding;\n  transition-property: width, padding;\n  -webkit-transition-duration: .125s;\n       -o-transition-duration: .125s;\n          transition-duration: .125s;\n  -webkit-transition-timing-function: ease-out;\n       -o-transition-timing-function: ease-out;\n          transition-timing-function: ease-out;\n}\n\n.emoji-mart-skin-swatch:nth-child(1) { -webkit-transition-delay: 0s; -o-transition-delay: 0s; transition-delay: 0s }\n.emoji-mart-skin-swatch:nth-child(2) { -webkit-transition-delay: .03s; -o-transition-delay: .03s; transition-delay: .03s }\n.emoji-mart-skin-swatch:nth-child(3) { -webkit-transition-delay: .06s; -o-transition-delay: .06s; transition-delay: .06s }\n.emoji-mart-skin-swatch:nth-child(4) { -webkit-transition-delay: .09s; -o-transition-delay: .09s; transition-delay: .09s }\n.emoji-mart-skin-swatch:nth-child(5) { -webkit-transition-delay: .12s; -o-transition-delay: .12s; transition-delay: .12s }\n.emoji-mart-skin-swatch:nth-child(6) { -webkit-transition-delay: .15s; -o-transition-delay: .15s; transition-delay: .15s }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px;\n}\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%; left: 50%;\n  width: 4px; height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  -webkit-transition: opacity .2s ease-out;\n  -o-transition: opacity .2s ease-out;\n  transition: opacity .2s ease-out;\n}\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%; padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%;\n}\n\n.emoji-mart-skin-tone-1 { background-color: #ffc93a }\n.emoji-mart-skin-tone-2 { background-color: #fadcbc }\n.emoji-mart-skin-tone-3 { background-color: #e0bb95 }\n.emoji-mart-skin-tone-4 { background-color: #bf8f68 }\n.emoji-mart-skin-tone-5 { background-color: #9b643d }\n.emoji-mart-skin-tone-6 { background-color: #594539 }\n\n\n/* vue-virtual-scroller/dist/vue-virtual-scroller.css */\n.vue-recycle-scroller{position:relative}.vue-recycle-scroller.direction-vertical:not(.page-mode){overflow-y:auto}.vue-recycle-scroller.direction-horizontal:not(.page-mode){overflow-x:auto}.vue-recycle-scroller.direction-horizontal{display:-webkit-box;display:-ms-flexbox;display:flex}.vue-recycle-scroller__slot{-webkit-box-flex:1;-ms-flex:auto 0 0px;flex:auto 0 0}.vue-recycle-scroller__item-wrapper{-webkit-box-flex:1;-ms-flex:1;flex:1;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;position:relative}.vue-recycle-scroller.ready .vue-recycle-scroller__item-view{position:absolute;top:0;left:0;will-change:transform}.vue-recycle-scroller.direction-vertical .vue-recycle-scroller__item-wrapper{width:100%}.vue-recycle-scroller.direction-horizontal .vue-recycle-scroller__item-wrapper{height:100%}.vue-recycle-scroller.ready.direction-vertical .vue-recycle-scroller__item-view{width:100%}.vue-recycle-scroller.ready.direction-horizontal .vue-recycle-scroller__item-view{height:100%}.resize-observer[data-v-b329ee4c]{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;border:none;background-color:transparent;pointer-events:none;display:block;overflow:hidden;opacity:0}.resize-observer[data-v-b329ee4c] object{display:block;position:absolute;top:0;left:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1}\n", ""]);
 
 // exports
 
@@ -49875,63 +49891,108 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "contactlist" }, [
-    _c(
-      "ul",
-      _vm._l(_vm.sortedContacts, function(contact) {
-        return _c(
-          "li",
+    _vm.listfriends
+      ? _c(
+          "a",
           {
-            key: contact.id,
-            class: { selected: contact == _vm.selected },
-            on: {
-              click: function($event) {
-                return _vm.selectContact(contact)
-              }
-            }
+            staticClass: "nav-link btn btn-sm btn-info",
+            attrs: { href: "#searchfriend" },
+            on: { click: _vm.togglelist }
           },
           [
-            _c("div", { staticClass: "avatar" }, [
-              _vm.onlines.find(function(online) {
-                return online.name === contact.name
-              })
-                ? _c("img", {
-                    staticClass: "active",
-                    attrs: {
-                      src: "/uploads/avatars/" + contact.avatar,
-                      alt: contact.name
-                    }
-                  })
-                : _c("img", {
-                    staticClass: "inactive",
-                    attrs: {
-                      src: "/uploads/avatars/" + contact.avatar,
-                      alt: contact.name
-                    }
-                  })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "contact" }, [
-              _c("p", { staticClass: "name" }, [_vm._v(_vm._s(contact.name))]),
-              _vm._v(" "),
-              _c("p", { staticClass: "email" }, [
-                _vm._v(_vm._s(contact.email))
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "/viewprofile/" + contact.id } }, [
-                _vm._v("Profile")
-              ])
-            ]),
-            _vm._v(" "),
-            contact.unread
-              ? _c("span", { staticClass: "unread" }, [
-                  _vm._v(_vm._s(contact.unread))
-                ])
-              : _vm._e()
+            _vm._v("Find Friends  "),
+            _c("i", { staticClass: "fas fa-angle-double-right" }),
+            _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
           ]
         )
-      }),
-      0
-    )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.searchfriends
+      ? _c(
+          "a",
+          {
+            staticClass: "nav-link btn btn-sm btn-warning",
+            attrs: { href: "#searchfriend" },
+            on: { click: _vm.togglelist }
+          },
+          [
+            _c("i", { staticClass: "fas fa-angle-double-left" }),
+            _vm._v("  Friend List "),
+            _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.searchfriends
+      ? _c("div", [_vm._v("\n          Look up\n    ")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.listfriends
+      ? _c("div", [
+          _c(
+            "ul",
+            _vm._l(_vm.sortedContacts, function(contact) {
+              return _c(
+                "li",
+                {
+                  key: contact.id,
+                  class: { selected: contact == _vm.selected },
+                  on: {
+                    click: function($event) {
+                      return _vm.selectContact(contact)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("a", { attrs: { href: "/viewprofile/" + contact.id } }, [
+                      _vm.onlines.find(function(online) {
+                        return online.name === contact.name
+                      })
+                        ? _c("img", {
+                            staticClass: "active",
+                            attrs: {
+                              src: "/uploads/avatars/" + contact.avatar,
+                              alt: contact.name
+                            }
+                          })
+                        : _c("img", {
+                            staticClass: "inactive",
+                            attrs: {
+                              src: "/uploads/avatars/" + contact.avatar,
+                              alt: contact.name
+                            }
+                          })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "contact" }, [
+                    _c(
+                      "p",
+                      {
+                        staticClass: "name",
+                        staticStyle: { "font-size": "20px" }
+                      },
+                      [_vm._v(_vm._s(contact.name))]
+                    ),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "email" }, [
+                      _vm._v(_vm._s(contact.welcome_text))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  contact.unread
+                    ? _c("span", { staticClass: "unread" }, [
+                        _vm._v(_vm._s(contact.unread))
+                      ])
+                    : _vm._e()
+                ]
+              )
+            }),
+            0
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -50056,6 +50117,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "composer" },
     [
       _vm.typing != ""
         ? [
@@ -50237,7 +50299,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.globalmode
-      ? _c("div", [
+      ? _c("div", { ref: "feed", staticClass: "feed" }, [
           _c("div", { staticClass: "jumbotron" }, [
             _c("div", { staticClass: "row" }, [
               _c(
@@ -50445,11 +50507,11 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._m(0),
-      _vm._v(_vm._s(_vm.user.name)),
+      _c("strong", [_vm._v(_vm._s(_vm.user.name))]),
       _c("br"),
       _vm._v(" "),
       _vm._m(1),
-      _vm._v(_vm._s(_vm.user.email)),
+      _c("strong", [_vm._v(_vm._s(_vm.user.email))]),
       _c("br"),
       _vm._v(" "),
       _c("h4", [_vm._v("Your Details")]),
@@ -50458,7 +50520,7 @@ var render = function() {
         _c(
           "h2",
           { staticClass: "text-center", staticStyle: { color: "green" } },
-          [_vm._v(_vm._s(_vm.user.welcome_text))]
+          [_c("strong", [_vm._v(_vm._s(_vm.user.welcome_text))])]
         )
       ]),
       _vm._v(" "),
@@ -50471,31 +50533,36 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._m(2),
-      _vm._v(_vm._s(_vm.user.birth_date) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.birth_date))]),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _vm._m(3),
-      _vm._v(_vm._s(_vm.user.sex) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.sex))]),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _vm._m(4),
-      _vm._v(_vm._s(_vm.user.work) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.work))]),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _vm._m(5),
-      _vm._v(_vm._s(_vm.user.education) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.education) + " ")]),
       _c("br"),
       _vm._v(" "),
       _vm._m(6),
-      _vm._v(_vm._s(_vm.user.religion) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.religion))]),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _vm._m(7),
-      _vm._v(_vm._s(_vm.user.phone) + " "),
+      _c("strong", [_vm._v(_vm._s(_vm.user.phone))]),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _vm._m(8),
-      _vm._v(" " + _vm._s(_vm.user.address)),
+      _c("strong", [_vm._v(" " + _vm._s(_vm.user.address))]),
       _c("br"),
       _vm._v(" "),
       _c("br"),

@@ -7,23 +7,23 @@
                 <button type="button" class="btn btn-success float-right" @click="newModal">UPDATE
                 <i class="fas fa-user-plus fa-fw"></i></button>
             </div>
-            <label style="color:red"><strong>Name:</strong></label>{{user.name}}<br>
-            <label style="color:red"><strong>Email:</strong></label>{{user.email}}<br>
+            <label style="color:red"><strong>Name:</strong></label><strong>{{user.name}}</strong><br>
+            <label style="color:red"><strong>Email:</strong></label><strong>{{user.email}}</strong><br>
             <h4>Your Details</h4>
             <div>
-                <h2 class="text-center" style="color:green">{{user.welcome_text}}</h2>
+                <h2 class="text-center" style="color:green"><strong>{{user.welcome_text}}</strong></h2>
             </div>
             <div>
                 <p class="text-center" style="color:blue"><strong>{{user.bio}}</strong></p>
             </div>    
-            <label style="color:red"><strong>Birth Date:</strong></label>{{user.birth_date}} <br> 
-            <label style="color:red"><strong>Sex:</strong></label>{{user.sex}} <br>  
-            <label style="color:red"><strong>Work:</strong></label>{{user.work}} <br> 
-            <label style="color:red"><strong>Education:</strong></label>{{user.education}} <br> 
-            <label style="color:red"><strong>Religion:</strong></label>{{user.religion}} <br> 
-            <label style="color:red"><strong>Phone:</strong></label>{{user.phone}} <br> 
-            <label style="color:red"><strong>Address:</strong></label> {{user.address}}<br>
-               <br> 
+            <label style="color:red"><strong>Birth Date:</strong></label><strong>{{user.birth_date}}</strong> <br> 
+            <label style="color:red"><strong>Sex:</strong></label><strong>{{user.sex}}</strong> <br>  
+            <label style="color:red"><strong>Work:</strong></label><strong>{{user.work}}</strong> <br> 
+            <label style="color:red"><strong>Education:</strong></label><strong>{{user.education}} </strong><br> 
+            <label style="color:red"><strong>Religion:</strong></label><strong>{{user.religion}}</strong> <br> 
+            <label style="color:red"><strong>Phone:</strong></label><strong>{{user.phone}}</strong> <br> 
+            <label style="color:red"><strong>Address:</strong></label><strong> {{user.address}}</strong><br>
+                 <br> 
                  <br> 
                  <br> 
                  <br> 
@@ -158,7 +158,6 @@ export default {
         data(){
            return {
                 form : new Form ({
-                    id:'',
                     name: '',
                     email: '',
                     welcome_text: '',

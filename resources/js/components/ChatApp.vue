@@ -75,5 +75,6 @@ import Contactlist from './Contactlist';
 <style lang="scss" scoped>
 .chat-app{
     display:flex;
+    height: 700px;
 }
 </style>
