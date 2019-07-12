@@ -28,7 +28,12 @@ Real time communication made possible by using laravel echo to broadcast message
         5.Create a new app in pusher and set up app credentials in your .env file
         6.Install pusher via composer(composer require pusher/pusher-php-server "~4.0")
         7.Install fontawesome via npm(npm i --save @fortawesome/fontawesome-free)
-        8.Install all the other dependencies mention avobe. 
+        8.Install v-toaster
+        9.Install vform
+        10.Instal vue-chat-scroll
+        11.Install vue-upload-component
+        12.Install emoji-mart-vue-fast
+        
 
 
 
