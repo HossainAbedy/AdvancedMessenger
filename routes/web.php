@@ -35,3 +35,17 @@ Route::put('/updateprofile', 'UserController@updateprofile');
 Route::get('/viewprofile/{id}', 'UserController@viewprofile');
 Route::post('/profile', 'UserController@update_avatar');
 
+//Friendshippart
+Route::get('/check_relationship_status/{id}', [
+    'uses' => 'FriendshipController@check',
+    'as' => 'check'
+]);
+Route::get('/add_friend/{id}', [
+    'uses' => 'FriendshipController@add_friend',
+    'as' => 'add_friend'
+]);
+Route::get('/accept_friend/{id}', [
+    'uses' => 'FriendshipController@accept_friend',
+    'as' => 'accept_friend'
+]);
+

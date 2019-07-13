@@ -27,9 +27,10 @@
                         <p class="email">{{user.email}}</p>
                     </div>
                     <div class="contact">
-                     <button type="button" class="btn btn-success float-right" style="font-size:20px">
+                        <!-- <button type="button" class="btn btn-success float-right" style="font-size:20px">
                         <i class="fas fa-user-plus"></i>
-                     </button>
+                        </button> -->
+                        <Friendship :profile_user_id="user.id"></Friendship>
                     </div>
                  </li>
                 </ul>      
@@ -62,6 +63,7 @@
 </template>
 
 <script>
+import Friendship from './Friendship';
     export default {
         props:{
             contacts:{
@@ -125,7 +127,10 @@
                         console.log("leaving",user.name);
                         this.onlines.splice(this.onlines.indexOf(user),1);
                 });    
-        }
+        },
+        components:{
+            Friendship
+        },
     }
 </script>
 

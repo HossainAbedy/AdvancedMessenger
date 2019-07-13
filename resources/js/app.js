@@ -30,6 +30,7 @@ Vue.use(Toaster, {timeout:5000})
 
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
 Vue.component('profile', require('./components/Profile.vue').default);
+Vue.component('Friendship', require('./components/Friendship.vue').default);
 Vue.component('message', require('./components/Message.vue').default);
 //file upload component
 const VueUploadComponent = require('vue-upload-component')

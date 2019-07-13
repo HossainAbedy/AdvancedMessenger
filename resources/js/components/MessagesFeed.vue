@@ -33,7 +33,7 @@
                         {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
                     </div>
                     <div class="image-container">
-                        <img v-if="message.image"  :src="'/storage/img/'+message.image" alt="">
+                        <img v-if="message.image"  style="width:350px;height:350px" :src="'/storage/img/'+message.image" alt="">
                     </div>
                 </li>
             </ul>

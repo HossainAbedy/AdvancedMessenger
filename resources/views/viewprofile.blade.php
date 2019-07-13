@@ -10,6 +10,7 @@
             <h4>{{ $user->name }}'s Profile</h4>
             <label style="color:red"><strong>Name:</strong></label>{{$user->name}}<br>
             <label style="color:red"><strong>Email:</strong></label>{{$user->email}}<br>
+            <Friendship :profile_user_id={{$user->id}}></Friendship><br>
             <h4>{{ $user->name }}'s Details</h4>
                  <div>
                         <h2 class="text-center" style="color:green">{{$user->welcome_text}}</h2>

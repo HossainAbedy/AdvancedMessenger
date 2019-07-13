@@ -122,11 +122,11 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
 
 <style lang="scss" scoped>
     .composer{
-        height: 250px;
+        height: 300px;
         .textareaA textarea{
 
             width: 100%;
-            height: 200px;
+            height: 240px;
             margin: 10px;
             resize: none;
             border-radius: 2px;
