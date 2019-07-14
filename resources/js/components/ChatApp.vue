@@ -32,6 +32,9 @@ import Contactlist from './Contactlist';
                 axios.get('/contacts')
                 .then((response) => {
                     this.contacts = response.data;
+                });
+                axios.get('/users')
+                .then((response) => {
                     this.users = response.data;
                 });
         },

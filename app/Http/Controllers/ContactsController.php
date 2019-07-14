@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 use App\Message;
 use App\User;
+use App\Friendship;
 use App\Events\NewMessage;
 use Illuminate\Http\Request;
 
 class ContactsController extends Controller
 {
-    // public function get(){
-    //     $contacts = User::all();
-    //     return response()->json($contacts);
-    // }
+    public function getall(){
+        // get all users except the authenticated one
+        $users = User::where('id', '!=', auth()->id())->get();
+        return response()->json($users);
+    }
+
     // public function getMessagesfor($id){
     //     $messages = Message::where('from',$id)->orWhere('to',$id)->get();
     //     return response()->json($messages);
@@ -19,9 +22,37 @@ class ContactsController extends Controller
 
     public function get()
     {
-        // get all users except the authenticated one
-        $users = User::where('id', '!=', auth()->id())->get();
-        $contacts = User::where('id', '!=', auth()->id())->get();
+        // get all friends
+        $contacts = array();
+        
+        $friends = array();
+		
+
+		$f1 = Friendship::where('status', 1)
+					->where('requester', auth()->id())
+					->get();
+
+		foreach($f1 as $friendship):
+			array_push($friends, \App\User::find($friendship->user_requested));
+		endforeach;
+
+
+		$friends2 = array();
+		
+		$f2 = Friendship::where('status', 1)
+					->where('user_requested', auth()->id())
+					->get();
+
+		foreach($f2 as $friendship):
+			array_push($friends2, \App\User::find($friendship->requester));
+		endforeach;
+
+        $contacts=array_merge($friends, $friends2);
+        
+        // $contacts = array_map(function($array){
+        //     return (object)$array;
+        // }, $contacts);
+        // $contacts = User::where('id', '!=', auth()->id())->get();
         // get a collection of items where sender_id is the user who sent us a message
         // and messages_count is the number of unread messages we have from him
         $unreadIds = Message::select(\DB::raw('`from` as sender_id, count(`from`) as messages_count'))
@@ -30,10 +61,12 @@ class ContactsController extends Controller
             ->groupBy('from')
             ->get();
         // add an unread key to each contact with the count of unread messages
+        
+        $contacts = collect($contacts);
         $contacts = $contacts->map(function($contact) use ($unreadIds) {
-            $contactUnread = $unreadIds->where('sender_id', $contact->id)->first();
-            $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
-            return $contact;
+        $contactUnread = $unreadIds->where('sender_id', $contact->id)->first();
+        $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
+        return $contact;
         });
         return response()->json($contacts);
     }

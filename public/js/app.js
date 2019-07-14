@@ -1753,6 +1753,8 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.get('/contacts').then(function (response) {
       _this.contacts = response.data;
+    });
+    axios.get('/users').then(function (response) {
       _this.users = response.data;
     });
   },
@@ -53461,13 +53463,25 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.status == "waiting"
-            ? _c("span", { staticClass: "text-danger" }, [
-                _vm._v("Waiting for response")
-              ])
+            ? _c(
+                "span",
+                {
+                  staticClass: "text-danger",
+                  staticStyle: { "font-size": "15px" }
+                },
+                [_c("strong", [_vm._v("Waiting for response")])]
+              )
             : _vm._e(),
           _vm._v(" "),
           _vm.status == "friends"
-            ? _c("span", { staticClass: "text-success" }, [_vm._v("Friends")])
+            ? _c(
+                "span",
+                {
+                  staticClass: "text-success",
+                  staticStyle: { "font-size": "15px" }
+                },
+                [_c("strong", [_vm._v("Friends")])]
+              )
             : _vm._e()
         ])
       : _vm._e()
@@ -69060,7 +69074,7 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "00adcd9768079769a7da",
+  key: "d2503347d755b9309403",
   cluster: "ap2",
   encrypted: true
 });
@@ -69745,8 +69759,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
