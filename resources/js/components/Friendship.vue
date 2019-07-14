@@ -33,11 +33,11 @@
                     .then( (r) => {
                         if(r.data == 1)
                             this.status = 'waiting'
-                            noty({
-                                type: 'success',
-                                layout: 'bottomLeft',
-                                text: 'Friend request sent .'
-                            })
+                            // noty({
+                            //     type: 'success',
+                            //     layout: 'bottomLeft',
+                            //     text: 'Friend request sent .'
+                            // })
                             this.loading = false
                     })
             },
@@ -47,11 +47,11 @@
                     .then( (r) => {
                         if(r.data == 1)
                             this.status = 'friends'
-                            noty({
-                                type: 'success',
-                                layout: 'bottomLeft',
-                                text: 'You are now friend. Go ahead and hangout .'
-                            })
+                            // noty({
+                            //     type: 'success',
+                            //     layout: 'bottomLeft',
+                            //     text: 'You are now friend. Go ahead and hangout .'
+                            // })
                             this.loading = false
                     })
             }

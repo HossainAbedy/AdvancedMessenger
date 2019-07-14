@@ -27,13 +27,13 @@ class FriendshipController extends Controller
         //sending notifications, emails, broadcasting.
        $resp = Auth::user()->add_friend($id);
        User::find($id)->notify(new \App\Notifications\NewFriendRequest(Auth::user()) );
-       return $resp;
+       return response()->json($resp);
     }
     public function accept_friend($id)
     {
         //sending nots
         $resp =  Auth::user()->accept_friend($id);
         User::find($id)->notify(new \App\Notifications\FriendRequestAccepted(Auth::user()) );
-        return $resp;
+        return response()->json($resp);
     }
 }

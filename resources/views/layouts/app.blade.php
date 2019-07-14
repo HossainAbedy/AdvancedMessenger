@@ -35,9 +35,22 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'SaFaRaChAt') }}
                 </a>
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    ChatBox
+                <a class="navbar-brand" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                               <i class="fas fa-power-off red"></i>
                 </a>
+               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                 @csrf
+                </form>
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    <i class="fas fa-comments cyan"></i>
+                 </a>
+                 <a class="navbar-brand" href="{{ url('/profile') }}">
+                     <i class="fas fa-user green"></i>
+                 </a>
+                 <notification :id="{{Auth::id()}}"></notification>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -101,7 +114,7 @@
       </div>
     </div>
     {{-- <script src="/js/app.js"></script> --}}
-    <script>        
+    {{-- <script>        
         @if(Session::has('success'))
             noty({
                 type: 'success',
@@ -109,6 +122,6 @@
                 text: '{{ Session::get('success') }}'
             });
         @endif
-    </script>
+    </script> --}}
 </body>
 </html>

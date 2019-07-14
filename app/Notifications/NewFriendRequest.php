@@ -37,7 +37,7 @@ class NewFriendRequest extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('You received a new friend request from ' . $this->user->name )
-                    ->action('View profile', url('/viewprofile/{id}',['id' => $this->user->id]))
+                    ->action('View profile', url('/viewprofile',['id' => $this->user->id]))
                     ->line('Thank you for using our social network!');
     }
     /**

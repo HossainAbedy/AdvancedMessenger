@@ -20,7 +20,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 //custom(noty)
-require('noty');
+window.Noty = require('noty');
 //custom(noty)
 window.axios = require('axios');
 
@@ -56,3 +56,9 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     encrypted: true
 });
+
+//notification
+Pusher.log = function(message)
+{
+    window.console.log(message)
+}
