@@ -1,13 +1,13 @@
 <template>
       <div>
         <li class="nav-item dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+            <a href="#" 
               @click="showNotification">
-                <i class="fas fa-bell yellow"></i>
+                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" v-if="show">
-                <ul class="dropdown-item">
-                   <li>notification</li>
+            <div class="dropdown-toggle bg-light" data-toggle="dropdown" role="button" aria-expanded="false" v-if="show">
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                   <li class="dropdown-item">notification</li>
                 </ul>
             </div> 
           </li>         

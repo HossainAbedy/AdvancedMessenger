@@ -53972,27 +53972,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("li", { staticClass: "nav-item dropdown" }, [
-      _c(
-        "a",
-        {
-          staticClass: "dropdown-toggle",
-          attrs: {
-            href: "#",
-            "data-toggle": "dropdown",
-            role: "button",
-            "aria-expanded": "false"
-          },
-          on: { click: _vm.showNotification }
-        },
-        [_c("i", { staticClass: "fas fa-bell yellow" })]
-      ),
+      _c("a", { attrs: { href: "#" }, on: { click: _vm.showNotification } }, [
+        _c("i", {
+          staticClass: "fas fa-bell yellow",
+          staticStyle: { "font-size": "18px", "padding-right": "15px" }
+        })
+      ]),
       _vm._v(" "),
       _vm.show
         ? _c(
             "div",
             {
-              staticClass: "dropdown-menu dropdown-menu-right",
-              attrs: { "aria-labelledby": "navbarDropdown" }
+              staticClass: "dropdown-toggle bg-light",
+              attrs: {
+                "data-toggle": "dropdown",
+                role: "button",
+                "aria-expanded": "false"
+              }
             },
             [_vm._m(0)]
           )
@@ -54005,9 +54001,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "dropdown-item" }, [
-      _c("li", [_vm._v("notification")])
-    ])
+    return _c(
+      "ul",
+      {
+        staticClass: "dropdown-menu dropdown-menu-right",
+        attrs: { "aria-labelledby": "navbarDropdown" }
+      },
+      [_c("li", { staticClass: "dropdown-item" }, [_vm._v("notification")])]
+    )
   }
 ]
 render._withStripped = true

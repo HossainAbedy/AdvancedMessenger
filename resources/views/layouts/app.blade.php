@@ -35,6 +35,15 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'SaFaRaChAt') }}
                 </a>
+                <notification :id="{{Auth::id()}}"></notification>
+
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    <i class="fas fa-comments cyan"></i>
+                 </a>
+                 <a class="navbar-brand" href="{{ url('/profile') }}">
+                     <i class="fas fa-user green"></i>
+                 </a>
+
                 <a class="navbar-brand" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();">
@@ -43,14 +52,7 @@
                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                  @csrf
                 </form>
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    <i class="fas fa-comments cyan"></i>
-                 </a>
-                 <a class="navbar-brand" href="{{ url('/profile') }}">
-                     <i class="fas fa-user green"></i>
-                 </a>
-                 <notification :id="{{Auth::id()}}"></notification>
-
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
