@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
+use DB;
 use App\Message;
 use App\User;
+use App\Friendship;
 use App\Events\NewMessage;
 use Illuminate\Http\Request;
 
@@ -21,7 +24,11 @@ class ContactsController extends Controller
     {
         // get all users except the authenticated one
         $users = User::where('id', '!=', auth()->id())->get();
-        $contacts = User::where('id', '!=', auth()->id())->get();
+        $contact =  DB::table('users')
+        ->join('friendships', 'users.id', '=', 'friendships.requester','users.id', '=', 'friendships.user_requested')
+        ->where('status',1)
+        ->get();
+        // $contacts = User::where('id', '!=', auth()->id())->get();
         // get a collection of items where sender_id is the user who sent us a message
         // and messages_count is the number of unread messages we have from him
         $unreadIds = Message::select(\DB::raw('`from` as sender_id, count(`from`) as messages_count'))
