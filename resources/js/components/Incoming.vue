@@ -110,7 +110,7 @@
                border-color:red;
                     }
             .user{
-               border-color:grey;
+               border-color:cyan;
                     }
 
             .contact{
