@@ -52,4 +52,5 @@ Route::get('/accept_friend/{id}', [
 
 //Notificationpart
 Route::get('/notification', 'NotificationController@getNotification');
+Route::get('/incoming', 'NotificationController@getIncoming');
 

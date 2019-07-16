@@ -39,24 +39,27 @@
                     {{ config('app.name', 'SaFaRaChAt') }}
                 </a>
 
-                <a class="navbar-brand" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                              document.getElementById('logout-form').submit();">
-                               <i class="fas fa-power-off red"></i>
-                </a>
-               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                 @csrf
-                </form>
 
+                <incoming :id="{{Auth::id()}}"></incoming>
 
                 <a class="navbar-brand" href="{{ url('/home') }}">
-                    <i class="fas fa-comments cyan"></i>
-                 </a>
-                 <a class="navbar-brand" href="{{ url('/profile') }}">
-                     <i class="fas fa-user green"></i>
+                    <i class="fas fa-comments cyan" style="font-size:18px;padding-right:18px"></i>
                  </a>
 
-                <notification :id="{{Auth::id()}}"></notification>
+                 <a class="navbar-brand" href="{{ url('/profile') }}">
+                     <i class="fas fa-user green" style="font-size:18px;padding-right:18px"></i>
+                 </a>
+
+                 <notification :id="{{Auth::id()}}"></notification>
+
+                 <a class="navbar-brand" href="{{ route('logout') }}"
+                 onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                <i class="fas fa-power-off red"></i>
+                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                 </form>
                 
                 @endguest
                
