@@ -2506,25 +2506,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      show: false
+      notifications: {
+        type: Object,
+        required: true
+      }
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/notification').then(function (response) {
+      _this.notifications = response.data;
+    });
     this.listen();
   },
   props: ['id'],
   methods: {
     listen: function listen() {
-      Echo["private"]('App.User.' + this.id).notification(function (notification) {//   noty({
-        //           type: 'success',
-        //           layout: 'bottomLeft',
-        //           text: notification.name + notification.message
-        //   })
-        //   this.$store.commit('add_not', notification)
-        //   document.getElementById("noty_audio").play()
+      var _this2 = this;
+
+      Echo["private"]('App.User.' + this.id).notification(function (notification) {
+        noty({
+          type: 'success',
+          layout: 'bottomLeft',
+          text: notification.name + notification.message
+        });
+
+        _this2.$store.commit('add_not', notification);
+
+        document.getElementById("noty_audio").play();
       });
     },
     showNotification: function showNotification() {
@@ -53971,46 +53989,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("li", { staticClass: "nav-item dropdown" }, [
-      _c("a", { attrs: { href: "#" }, on: { click: _vm.showNotification } }, [
-        _c("i", {
-          staticClass: "fas fa-bell yellow",
-          staticStyle: { "font-size": "18px", "padding-right": "15px" }
-        })
-      ]),
-      _vm._v(" "),
-      _vm.show
-        ? _c(
-            "div",
+    _c("li", { staticClass: "nav-item dropdown", staticStyle: {} }, [
+      _c(
+        "div",
+        {
+          staticClass: "dropdown-toggle",
+          staticStyle: { "font-size": "18px", "padding-bottom": "18px" },
+          attrs: {
+            "data-toggle": "dropdown",
+            role: "button",
+            "aria-expanded": "false"
+          }
+        },
+        [
+          _c("i", {
+            staticClass: "fas fa-bell yellow",
+            staticStyle: { "font-size": "18px", "padding-right": "15px" }
+          }),
+          _vm._v(" "),
+          _c(
+            "ul",
             {
-              staticClass: "dropdown-toggle bg-light",
-              attrs: {
-                "data-toggle": "dropdown",
-                role: "button",
-                "aria-expanded": "false"
-              }
+              staticClass: "dropdown-menu dropdown-menu-right",
+              attrs: { "aria-labelledby": "navbarDropdown" }
             },
-            [_vm._m(0)]
+            _vm._l(_vm.notifications, function(notification) {
+              return _c(
+                "li",
+                { key: notification.id, staticClass: "dropdown-item" },
+                [
+                  (_vm.notifications.type = "AppNotificationsNewFriendRequest")
+                    ? _c("div", [_c("h5", [_vm._v(_vm._s(notification.data))])])
+                    : (_vm.notifications.type =
+                        "AppNotificationsFriendRequestAccepted")
+                    ? _c("div", [_c("h5", [_vm._v(_vm._s(notification.data))])])
+                    : _vm._e()
+                ]
+              )
+            }),
+            0
           )
-        : _vm._e()
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "ul",
-      {
-        staticClass: "dropdown-menu dropdown-menu-right",
-        attrs: { "aria-labelledby": "navbarDropdown" }
-      },
-      [_c("li", { staticClass: "dropdown-item" }, [_vm._v("notification")])]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

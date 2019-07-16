@@ -50,3 +50,6 @@ Route::get('/accept_friend/{id}', [
     'as' => 'accept_friend'
 ]);
 
+//Notificationpart
+Route::get('/notification', 'NotificationController@getNotification');
+
