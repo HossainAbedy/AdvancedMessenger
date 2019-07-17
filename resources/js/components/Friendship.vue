@@ -6,8 +6,8 @@
             <p class="text-center" v-if="!loading">
                 <button class="btn btn-success" v-if="status == 0" @click="add_friend">Add   <i class="fas fa-user"></i></button>
                 <button class="btn btn-warning" v-if="status == 'pending'" @click="accept_friend">Accept   <i class="fas fa-user-plus"></i></button>
-                <span class="text-danger" v-if="status == 'waiting'">Waiting for response</span>
-                <span class="text-success" v-if="status == 'friends'">Friends</span>
+                <span class="text-danger" style="font-size:15px" v-if="status == 'waiting'"><strong>Waiting for response</strong></span>
+                <span class="text-success" style="font-size:15px" v-if="status == 'friends'"><strong>Friends</strong></span>
             </p>
         </div>
 </template>
@@ -33,11 +33,11 @@
                     .then( (r) => {
                         if(r.data == 1)
                             this.status = 'waiting'
-                            noty({
-                                type: 'success',
-                                layout: 'bottomLeft',
-                                text: 'Friend request sent .'
-                            })
+                            // noty({
+                            //     type: 'success',
+                            //     layout: 'bottomLeft',
+                            //     text: 'Friend request sent .'
+                            // })
                             this.loading = false
                     })
             },
@@ -47,11 +47,11 @@
                     .then( (r) => {
                         if(r.data == 1)
                             this.status = 'friends'
-                            noty({
-                                type: 'success',
-                                layout: 'bottomLeft',
-                                text: 'You are now friend. Go ahead and hangout .'
-                            })
+                            // noty({
+                            //     type: 'success',
+                            //     layout: 'bottomLeft',
+                            //     text: 'You are now friend. Go ahead and hangout .'
+                            // })
                             this.loading = false
                     })
             }

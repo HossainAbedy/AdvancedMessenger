@@ -79,8 +79,8 @@ import Friendship from './Friendship';
             return {
                 selected: this.contacts.length ? this.contacts[0] : null,
                 onlines:[],
-                searchfriends: true,
-                listfriends:false,
+                searchfriends: false,
+                listfriends:true,
                 search: '',
             };
         },
@@ -203,7 +203,7 @@ import Friendship from './Friendship';
                border-color:red;
                     }
             .user{
-               border-color:black;
+               border-color:grey;
                     }
 
             .contact{
