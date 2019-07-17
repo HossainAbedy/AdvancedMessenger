@@ -33,6 +33,8 @@ Vue.component('profile', require('./components/Profile.vue').default);
 Vue.component('Friendship', require('./components/Friendship.vue').default);
 Vue.component('message', require('./components/Message.vue').default);
 Vue.component('notification', require('./components/Notification.vue').default);
+Vue.component('incoming', require('./components/Incoming.vue').default);
+
 
 //file upload component
 const VueUploadComponent = require('vue-upload-component')

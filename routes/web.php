@@ -50,3 +50,13 @@ Route::get('/accept_friend/{id}', [
     'as' => 'accept_friend'
 ]);
 
+//Notificationpart
+Route::get('/notification', 'NotificationController@getNotification');
+Route::get('/getnotyunread', 'NotificationController@getNotyUnread');
+Route::put('/updatenotyincoming', 'NotificationController@updateNotyIncoming');
+
+//FriendRequestpart
+Route::get('/incoming', 'NotificationController@getIncoming');
+Route::get('/getunread', 'NotificationController@getUnread');
+Route::put('/updateincoming', 'NotificationController@updateIncoming');
+

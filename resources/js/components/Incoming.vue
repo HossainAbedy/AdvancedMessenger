@@ -2,19 +2,23 @@
       <div>
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
-                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread"><span  v-if="unread" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span></i>
+                <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread"><span v-if="unread" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span></i> 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <li class="dropdown-item" v-for="notification in notifications" 
-                    :key="notification.id">
-                        <div class="contact" v-if="notifications.type = 'App\Notifications\NewFriendRequest'">
-                                <h5 style="font-size:10px;padding-bottom:18px">{{notification.data}}</h5>
-                                <h6 style="font-size:10px;padding-bottom:18px">{{notification.created_at}}</h6>
+                    <li v-for="user in users" :key="user.id">
+                        <div class="avatar">
+                            <a :href="`/viewprofile/${user.id}`">
+                                <img class="user" :src="'/uploads/avatars/'+user.avatar" :alt="user.name">
+                                <!-- <span class="unread" v-if="!unread">New</span> -->
+                            </a>
                         </div>
-                        <div class="contact" v-else-if="notifications.type = 'App\Notifications\FriendRequestAccepted'">
-                                <h5 style="font-size:10px;padding-bottom:18px">{{notification.data}}</h5>
-                                <h6 style="font-size:10px;padding-bottom:18px">{{notification.created_at}}</h6>
+                        <div class="contact" style="padding-left:20px">
+                            <p class="name" style="font-size:15px">{{user.name}}</p>
+                            <p class="email">{{user.email}}</p>
                         </div>
-                    </li>                  
+                        <div class="contact">
+                            <Friendship :profile_user_id="user.id"></Friendship>
+                        </div>
+                    </li>      
                 </ul>
             </div> 
           </li>         
@@ -25,45 +29,43 @@
       export default {
             data(){
                 return {
-                    notifications:{
-                        type:Object,
-                        required:true
-                    },
+                    users:[],
                     incoming:0,
                     unread:true,
                     unreadCount:'',
                 }
             },
-            mounted() {
-                   axios.get('/getnotyunread')
-                   .then((response) => {
-                   this.unreadCount = response.data;
-                   });
-                   axios.get('/notification')
-                   .then((response) => {
-                     this.notifications = response.data;
-                     
-                   });
-                   Echo.private('App.User.' + this.id)
-                   .notification((notification) => {
-                   console.log(notification.type);
-                   if(notification.type === 'App\Notifications\FriendRequestAccepted'){
-                           this.incoming++;
-                        }
-                   });
-            },
-            props: ['id'],
-            methods: {
-                   updateUnread(){
-                    axios.put('/updatenotyincoming')
+            methods:{
+                updateUnread(){
+                    axios.put('/updateincoming')
                     .then((response) => {
                         this.updated = response.data;
                         this.unread = false;
+                        this.incoming = 0;
                     });
-                   }
-            }
+                }
+            },
+            mounted() {
+                axios.get('/getunread')
+                .then((response) => {
+                this.unreadCount = response.data;
+                });
+                axios.get('/incoming')
+                .then((response) => {
+                    this.users = response.data;
+                })
+                Echo.private('App.User.' + this.id)
+                .notification((notification) => {
+                    console.log(notification.type);
+                     if(notification.type === 'App\Notifications\NewFriendRequest'){
+                           this.incoming++;
+                        }
+                });
+            },
+        props: ['id'],
       }
 </script>
+
 <style lang="scss" scoped>
     .contactlist{
         flex:2;
@@ -138,7 +140,7 @@
 
             .contact{
                 flex:3;
-                font-size:5px;
+                font-size:10px;
                 overflow-x: hidden;
                 overflow:hidden;
                 display:flex;
