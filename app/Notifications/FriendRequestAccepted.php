@@ -4,8 +4,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+
 class FriendRequestAccepted extends Notification implements ShouldQueue
-{
+{ 
     use Queueable;
     public $user;
     /**
@@ -53,5 +55,14 @@ class FriendRequestAccepted extends Notification implements ShouldQueue
             'name' => $this->user->name,
             'message' => 'Accepted your friend request'
         ];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+            'message' => 'Accepted your friend request'
+        ]);
     }
 }

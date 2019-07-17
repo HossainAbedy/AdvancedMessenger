@@ -2,13 +2,13 @@
       <div>
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
-                <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread"><span v-if="unread" class="badge badge-pill white bg-danger">{{incoming+unreadCount.length}}</span></i> 
+                <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread"><span v-if="unread" class="badge badge-pill white bg-danger">{{incoming}}</span></i> 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <li v-for="user in users" :key="user.id">
                         <div class="avatar">
                             <a :href="`/viewprofile/${user.id}`">
                                 <img class="user" :src="'/uploads/avatars/'+user.avatar" :alt="user.name">
-                                <span class="unread" v-if="!unread">New</span>
+                                <!-- <span class="unread" v-if="!unread">New</span> -->
                             </a>
                         </div>
                         <div class="contact" style="padding-left:20px">
@@ -30,7 +30,7 @@
             data(){
                 return {
                     users:[],
-                    incoming:'',
+                    incoming:0,
                     unread:true,
                     unreadCount:'',
                 }
@@ -41,17 +41,10 @@
                     .then((response) => {
                         this.updated = response.data;
                         this.unread = false;
+                        this.incoming = 0;
                     });
                 }
             },
-            //  watch:{
-            //     message(){
-            //         Echo.private('chat')
-            //         .whisper('incoming', {
-            //         name: this.message
-            //         });
-            //     }
-            // },
             mounted() {
                 axios.get('/getunread')
                 .then((response) => {
@@ -61,17 +54,13 @@
                 .then((response) => {
                     this.users = response.data;
                 })
-                // Echo.private('chat')
-                // .listenForWhisper('incoming', (e) => {
-                //     if(e.name!=''){
-                //        this.incoming='New Friend Request';
-                //     }else{
-                //         this.incoming='';
-                //     }  
-               
-                // });
+                Echo.private('App.User.' + this.id)
+                .notification((notification) => {
+                    console.log(notification.type);
+                    this.incoming++;
+                });
             },
-            props: ['id'],
+        props: ['id'],
       }
 </script>
 

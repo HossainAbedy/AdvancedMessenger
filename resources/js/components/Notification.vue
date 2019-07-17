@@ -2,7 +2,7 @@
       <div>
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
-                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread"><span  v-if="unread" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span></i>
+                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread"><span  v-if="unread" class="badge badge-pill white bg-danger">{{notification.length}}</span></i>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <li class="dropdown-item" v-for="notification in notifications" 
                     :key="notification.id">
@@ -29,6 +29,7 @@
                         type:Object,
                         required:true
                     },
+                    incoming:0,
                     unread:true,
                     unreadCount:'',
                 }
@@ -43,25 +44,14 @@
                      this.notifications = response.data;
                      
                    });
-                   this.listen()
-                   },
+                   Echo.private('App.User.' + this.id)
+                   .notification((notification) => {
+                   console.log(notification.type);
+                   this.incoming++;
+                   });
+            },
             props: ['id'],
             methods: {
-                  listen() {
-                        Echo.private('App.User.' + this.id)
-                            .notification( (notification) => {
-                                //   noty({
-                                //           type: 'success',
-                                //           layout: 'bottomLeft',
-                                //           text: notification.name + notification.message
-                                //   })
-                                //   this.$store.commit('add_not', notification)
-                                //   document.getElementById("noty_audio").play()                             
-                            })
-                  },
-                  showNotification(){
-                      this.show =! this.show;
-                  },
                    updateUnread(){
                     axios.put('/updatenotyincoming')
                     .then((response) => {

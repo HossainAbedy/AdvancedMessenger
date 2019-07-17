@@ -2138,7 +2138,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       users: [],
-      incoming: '',
+      incoming: 0,
       unread: true,
       unreadCount: ''
     };
@@ -2150,17 +2150,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/updateincoming').then(function (response) {
         _this.updated = response.data;
         _this.unread = false;
+        _this.incoming = 0;
       });
     }
   },
-  //  watch:{
-  //     message(){
-  //         Echo.private('chat')
-  //         .whisper('incoming', {
-  //         name: this.message
-  //         });
-  //     }
-  // },
   mounted: function mounted() {
     var _this2 = this;
 
@@ -2169,14 +2162,11 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.get('/incoming').then(function (response) {
       _this2.users = response.data;
-    }); // Echo.private('chat')
-    // .listenForWhisper('incoming', (e) => {
-    //     if(e.name!=''){
-    //        this.incoming='New Friend Request';
-    //     }else{
-    //         this.incoming='';
-    //     }  
-    // });
+    });
+    Echo["private"]('App.User.' + this.id).notification(function (notification) {
+      console.log(notification.type);
+      _this2.incoming++;
+    });
   },
   props: ['id']
 });
@@ -2605,6 +2595,7 @@ __webpack_require__.r(__webpack_exports__);
         type: Object,
         required: true
       },
+      incoming: 0,
       unread: true,
       unreadCount: ''
     };
@@ -2618,23 +2609,13 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/notification').then(function (response) {
       _this.notifications = response.data;
     });
-    this.listen();
+    Echo["private"]('App.User.' + this.id).notification(function (notification) {
+      console.log(notification.type);
+      _this.incoming++;
+    });
   },
   props: ['id'],
   methods: {
-    listen: function listen() {
-      Echo["private"]('App.User.' + this.id).notification(function (notification) {//   noty({
-        //           type: 'success',
-        //           layout: 'bottomLeft',
-        //           text: notification.name + notification.message
-        //   })
-        //   this.$store.commit('add_not', notification)
-        //   document.getElementById("noty_audio").play()                             
-      });
-    },
-    showNotification: function showNotification() {
-      this.show = !this.show;
-    },
     updateUnread: function updateUnread() {
       var _this2 = this;
 
@@ -53751,7 +53732,7 @@ var render = function() {
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
-                    [_vm._v(_vm._s(_vm.incoming + _vm.unreadCount.length))]
+                    [_vm._v(_vm._s(_vm.incoming))]
                   )
                 : _vm._e()
             ]
@@ -53773,11 +53754,7 @@ var render = function() {
                         src: "/uploads/avatars/" + user.avatar,
                         alt: user.name
                       }
-                    }),
-                    _vm._v(" "),
-                    !_vm.unread
-                      ? _c("span", { staticClass: "unread" }, [_vm._v("New")])
-                      : _vm._e()
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -54273,7 +54250,7 @@ var render = function() {
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
-                    [_vm._v(_vm._s(_vm.unreadCount.length))]
+                    [_vm._v(_vm._s(_vm.notification.length))]
                   )
                 : _vm._e()
             ]
