@@ -2133,18 +2133,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      users: []
+      users: [],
+      incoming: '',
+      unread: true,
+      unreadCount: ''
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  methods: {
+    updateUnread: function updateUnread() {
+      var _this = this;
 
-    axios.get('/incoming').then(function (response) {
-      _this.users = response.data;
+      axios.put('/updateincoming').then(function (response) {
+        _this.updated = response.data;
+        _this.unread = false;
+      });
+    }
+  },
+  //  watch:{
+  //     message(){
+  //         Echo.private('chat')
+  //         .whisper('incoming', {
+  //         name: this.message
+  //         });
+  //     }
+  // },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    axios.get('/getunread').then(function (response) {
+      _this2.unreadCount = response.data;
     });
+    axios.get('/incoming').then(function (response) {
+      _this2.users = response.data;
+    }); // Echo.private('chat')
+    // .listenForWhisper('incoming', (e) => {
+    //     if(e.name!=''){
+    //        this.incoming='New Friend Request';
+    //     }else{
+    //         this.incoming='';
+    //     }  
+    // });
   },
   props: ['id']
 });
@@ -2564,18 +2596,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       notifications: {
         type: Object,
         required: true
-      }
+      },
+      unread: true,
+      unreadCount: ''
     };
   },
   mounted: function mounted() {
     var _this = this;
 
+    axios.get('/getnotyunread').then(function (response) {
+      _this.unreadCount = response.data;
+    });
     axios.get('/notification').then(function (response) {
       _this.notifications = response.data;
     });
@@ -2584,22 +2623,25 @@ __webpack_require__.r(__webpack_exports__);
   props: ['id'],
   methods: {
     listen: function listen() {
-      var _this2 = this;
-
-      Echo["private"]('App.User.' + this.id).notification(function (notification) {
-        noty({
-          type: 'success',
-          layout: 'bottomLeft',
-          text: notification.name + notification.message
-        });
-
-        _this2.$store.commit('add_not', notification);
-
-        document.getElementById("noty_audio").play();
+      Echo["private"]('App.User.' + this.id).notification(function (notification) {//   noty({
+        //           type: 'success',
+        //           layout: 'bottomLeft',
+        //           text: notification.name + notification.message
+        //   })
+        //   this.$store.commit('add_not', notification)
+        //   document.getElementById("noty_audio").play()                             
       });
     },
     showNotification: function showNotification() {
       this.show = !this.show;
+    },
+    updateUnread: function updateUnread() {
+      var _this2 = this;
+
+      axios.put('/updatenotyincoming').then(function (response) {
+        _this2.updated = response.data;
+        _this2.unread = false;
+      });
     }
   }
 });
@@ -7316,7 +7358,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".contactlist[data-v-a58aeade] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-a58aeade] {\n  font-size: 30px;\n}\ni[data-v-a58aeade] {\n  font-size: 30px;\n}\nul[data-v-a58aeade] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-a58aeade] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-a58aeade] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-a58aeade] {\n  background: #82e0a8;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-a58aeade] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-a58aeade] {\n  width: 55px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-a58aeade] {\n  border-color: green;\n}\nul li .inactive[data-v-a58aeade] {\n  border-color: red;\n}\nul li .user[data-v-a58aeade] {\n  border-color: cyan;\n}\nul li .contact[data-v-a58aeade] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-a58aeade] {\n  margin: 0;\n}\nul li .contact p.name[data-v-a58aeade] {\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, ".contactlist[data-v-a58aeade] {\n  flex: 2;\n  max-height: 700px;\n  overflow: scroll;\n  overflow-x: hidden;\n  border-left: 1px solid #a6a6a6;\n}\na[data-v-a58aeade] {\n  font-size: 30px;\n}\ni[data-v-a58aeade] {\n  font-size: 30px;\n}\nul[data-v-a58aeade] {\n  list-style-type: none;\n  padding-left: 0;\n}\nul li[data-v-a58aeade] {\n  display: flex;\n  padding: 2px;\n  border-bottom: 1px solid #aaaaaa;\n  height: 88px;\n  position: relative;\n  cursor: pointer;\n}\nul li.selected[data-v-a58aeade] {\n  background: #dfdfdf;\n}\nul li span.unread[data-v-a58aeade] {\n  background: red;\n  color: #fff;\n  position: absolute;\n  right: 11px;\n  top: 20px;\n  display: flex;\n  font-weight: 700;\n  min-width: 20px;\n  justify-content: center;\n  align-items: center;\n  line-height: 20px;\n  font-size: 12px;\n  padding: 0 4px;\n  border-radius: 3px;\n}\nul li .avatar[data-v-a58aeade] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n}\nul li .avatar img[data-v-a58aeade] {\n  width: 55px;\n  border-radius: 60%;\n  margin: 0 auto;\n  border-width: 2px;\n  border-style: solid;\n}\nul li .active[data-v-a58aeade] {\n  border-color: green;\n}\nul li .inactive[data-v-a58aeade] {\n  border-color: red;\n}\nul li .user[data-v-a58aeade] {\n  border-color: cyan;\n}\nul li .contact[data-v-a58aeade] {\n  flex: 3;\n  font-size: 10px;\n  overflow-x: hidden;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\nul li .contact p[data-v-a58aeade] {\n  margin: 0;\n}\nul li .contact p.name[data-v-a58aeade] {\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -53697,10 +53739,23 @@ var render = function() {
           }
         },
         [
-          _c("i", {
-            staticClass: "fas fa-user-plus orange",
-            staticStyle: { "font-size": "18px", "padding-right": "15px" }
-          }),
+          _c(
+            "i",
+            {
+              staticClass: "fas fa-user-plus orange",
+              staticStyle: { "font-size": "18px", "padding-right": "15px" },
+              on: { click: _vm.updateUnread }
+            },
+            [
+              _vm.unread
+                ? _c(
+                    "span",
+                    { staticClass: "badge badge-pill white bg-danger" },
+                    [_vm._v(_vm._s(_vm.incoming + _vm.unreadCount.length))]
+                  )
+                : _vm._e()
+            ]
+          ),
           _vm._v(" "),
           _c(
             "ul",
@@ -53718,7 +53773,11 @@ var render = function() {
                         src: "/uploads/avatars/" + user.avatar,
                         alt: user.name
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    !_vm.unread
+                      ? _c("span", { staticClass: "unread" }, [_vm._v("New")])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -54202,10 +54261,23 @@ var render = function() {
           }
         },
         [
-          _c("i", {
-            staticClass: "fas fa-bell yellow",
-            staticStyle: { "font-size": "18px", "padding-right": "15px" }
-          }),
+          _c(
+            "i",
+            {
+              staticClass: "fas fa-bell yellow",
+              staticStyle: { "font-size": "18px", "padding-right": "15px" },
+              on: { click: _vm.updateUnread }
+            },
+            [
+              _vm.unread
+                ? _c(
+                    "span",
+                    { staticClass: "badge badge-pill white bg-danger" },
+                    [_vm._v(_vm._s(_vm.unreadCount.length))]
+                  )
+                : _vm._e()
+            ]
+          ),
           _vm._v(" "),
           _c(
             "ul",
@@ -54219,10 +54291,18 @@ var render = function() {
                 { key: notification.id, staticClass: "dropdown-item" },
                 [
                   (_vm.notifications.type = "AppNotificationsNewFriendRequest")
-                    ? _c("div", [_c("h5", [_vm._v(_vm._s(notification.data))])])
+                    ? _c("div", [
+                        _c("h5", [_vm._v(_vm._s(notification.data))]),
+                        _vm._v(" "),
+                        _c("h6", [_vm._v(_vm._s(notification.created_at))])
+                      ])
                     : (_vm.notifications.type =
                         "AppNotificationsFriendRequestAccepted")
-                    ? _c("div", [_c("h5", [_vm._v(_vm._s(notification.data))])])
+                    ? _c("div", [
+                        _c("h5", [_vm._v(_vm._s(notification.data))]),
+                        _vm._v(" "),
+                        _c("h6", [_vm._v(_vm._s(notification.created_at))])
+                      ])
                     : _vm._e()
                 ]
               )

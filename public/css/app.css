@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.white {
+  color: #f8fafc;
+}
+
 .darkgrey {
   color: #A9A9A9;
 }

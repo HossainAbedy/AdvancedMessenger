@@ -42,15 +42,15 @@
 
                 <incoming :id="{{Auth::id()}}"></incoming>
 
+                <notification :id="{{Auth::id()}}"></notification>
+
                 <a class="navbar-brand" href="{{ url('/home') }}">
-                    <i class="fas fa-comments cyan" style="font-size:18px;padding-right:18px"></i>
+                    <i class="fas fa-comments green" style="font-size:18px;padding-right:18px"></i>
                  </a>
 
                  <a class="navbar-brand" href="{{ url('/profile') }}">
-                     <i class="fas fa-user green" style="font-size:18px;padding-right:18px"></i>
+                     <i class="fas fa-user cyan" style="font-size:18px;padding-right:18px"></i>
                  </a>
-
-                 <notification :id="{{Auth::id()}}"></notification>
 
                  <a class="navbar-brand" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
