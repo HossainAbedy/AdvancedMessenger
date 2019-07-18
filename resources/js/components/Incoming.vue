@@ -2,7 +2,10 @@
       <div>
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
-                <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread"><span v-if="unread" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span></i> 
+                <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread">
+                <span v-if="unread && incomingCount != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
+                <span v-if="incomingCount != 0" class="badge badge-pill red ">{{incoming}}:{{incomingCount}}</span>
+                </i> 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <li v-for="user in users" :key="user.id">
                         <div class="avatar">
@@ -27,10 +30,12 @@
 
 <script>
       export default {
+            props: ['id'],
             data(){
                 return {
                     users:[],
-                    incoming:0,
+                    incoming:'',
+                    incomingCount:0,
                     unread:true,
                     unreadCount:'',
                 }
@@ -41,10 +46,26 @@
                     .then((response) => {
                         this.updated = response.data;
                         this.unread = false;
-                        this.incoming = 0;
+                        this.incoming = '';
+                        this.incomingCount = 0;
                     });
+                },
+                listen(){ 
+                        Echo.private('App.User.' + this.id)
+                            .notification((notification) => {
+                                if(notification.type == 'App\\Notifications\\NewFriendRequest'){
+                                    this.incomingCount+=1;
+                                    this.incoming = 'NEW';
+                                    this.$toaster.success(notification.name +'sent you a friend request');
+                                    this.$toaster.error('Refresh browser to see the update');
+                                console.log(notification.type);
+                                console.log(notification.name);
+                                console.log(this.incoming);
+                                }
+                        })
                 }
             },
+    
             mounted() {
                 axios.get('/getunread')
                 .then((response) => {
@@ -53,16 +74,10 @@
                 axios.get('/incoming')
                 .then((response) => {
                     this.users = response.data;
-                })
-                Echo.private('App.User.' + this.id)
-                .notification((notification) => {
-                    console.log(notification.type);
-                     if(notification.type === 'App\Notifications\NewFriendRequest'){
-                           this.incoming++;
-                        }
                 });
-            },
-        props: ['id'],
+                 
+                this.listen();
+            }, 
       }
 </script>
 

@@ -2,7 +2,11 @@
       <div>
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
-                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread"><span  v-if="unread" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span></i>
+                <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread">
+                <span v-if="unread && incomingCount != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
+                <span  v-if="incomingCount != 0" class="badge badge-pill red">{{incoming}}:{{incomingCount}}</span>
+                </i>
+                    
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <li class="dropdown-item" v-for="notification in notifications" 
                     :key="notification.id">
@@ -29,39 +33,52 @@
                         type:Object,
                         required:true
                     },
-                    incoming:0,
+                    incoming:'',
                     unread:true,
                     unreadCount:'',
+                    incomingCount: 0,
                 }
             },
-            mounted() {
-                   axios.get('/getnotyunread')
-                   .then((response) => {
-                   this.unreadCount = response.data;
-                   });
-                   axios.get('/notification')
-                   .then((response) => {
-                     this.notifications = response.data;
-                     
-                   });
-                   Echo.private('App.User.' + this.id)
-                   .notification((notification) => {
-                   console.log(notification.type);
-                   if(notification.type === 'App\Notifications\FriendRequestAccepted'){
-                           this.incoming++;
-                        }
-                   });
-            },
+          
             props: ['id'],
             methods: {
-                   updateUnread(){
-                    axios.put('/updatenotyincoming')
-                    .then((response) => {
-                        this.updated = response.data;
-                        this.unread = false;
+                    updateUnread(){
+                        axios.put('/updatenotyincoming')
+                        .then((response) => {
+                            this.updated = response.data;
+                            this.incoming='';
+                            this.incomingCount=0;
+                            this.unread = false;
                     });
-                   }
-            }
+                },
+                listen(){
+                         Echo.private('App.User.' + this.id)
+                        .notification((notification) => {
+                         if(notification.type === 'App\\Notifications\\FriendRequestAccepted'){
+                           this.incomingCount+=1;
+                           this.incoming = 'NEW';
+                           this.$toaster.success(notification.name+'accpecpted your friend request');
+                           this.$toaster.error('Refresh browser to see the update');
+                         }
+                          console.log(notification.type);
+                          console.log(notification.name);
+                          console.log(this.incoming);
+                    })  
+                } 
+            },
+
+            mounted() {
+                    axios.get('/getnotyunread')
+                    .then((response) => {
+                    this.unreadCount = response.data;
+                    });
+                    axios.get('/notification')
+                    .then((response) => {
+                    this.notifications = response.data;
+                    });
+
+                    this.listen();
+            },
       }
 </script>
 <style lang="scss" scoped>

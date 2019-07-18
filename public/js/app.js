@@ -2134,11 +2134,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['id'],
   data: function data() {
     return {
       users: [],
-      incoming: 0,
+      incoming: '',
+      incomingCount: 0,
       unread: true,
       unreadCount: ''
     };
@@ -2150,28 +2155,40 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/updateincoming').then(function (response) {
         _this.updated = response.data;
         _this.unread = false;
-        _this.incoming = 0;
+        _this.incoming = '';
+        _this.incomingCount = 0;
+      });
+    },
+    listen: function listen() {
+      var _this2 = this;
+
+      Echo["private"]('App.User.' + this.id).notification(function (notification) {
+        if (notification.type == 'App\\Notifications\\NewFriendRequest') {
+          _this2.incomingCount += 1;
+          _this2.incoming = 'NEW';
+
+          _this2.$toaster.success(notification.name + 'sent you a friend request');
+
+          _this2.$toaster.error('Refresh browser to see the update');
+
+          console.log(notification.type);
+          console.log(notification.name);
+          console.log(_this2.incoming);
+        }
       });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios.get('/getunread').then(function (response) {
-      _this2.unreadCount = response.data;
+      _this3.unreadCount = response.data;
     });
     axios.get('/incoming').then(function (response) {
-      _this2.users = response.data;
+      _this3.users = response.data;
     });
-    Echo["private"]('App.User.' + this.id).notification(function (notification) {
-      console.log(notification.type);
-
-      if (notification.type === 'App\Notifications\NewFriendRequest') {
-        _this2.incoming++;
-      }
-    });
-  },
-  props: ['id']
+    this.listen();
+  }
 });
 
 /***/ }),
@@ -2591,6 +2608,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2598,38 +2619,53 @@ __webpack_require__.r(__webpack_exports__);
         type: Object,
         required: true
       },
-      incoming: 0,
+      incoming: '',
       unread: true,
-      unreadCount: ''
+      unreadCount: '',
+      incomingCount: 0
     };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/getnotyunread').then(function (response) {
-      _this.unreadCount = response.data;
-    });
-    axios.get('/notification').then(function (response) {
-      _this.notifications = response.data;
-    });
-    Echo["private"]('App.User.' + this.id).notification(function (notification) {
-      console.log(notification.type);
-
-      if (notification.type === 'App\Notifications\FriendRequestAccepted') {
-        _this.incoming++;
-      }
-    });
   },
   props: ['id'],
   methods: {
     updateUnread: function updateUnread() {
-      var _this2 = this;
+      var _this = this;
 
       axios.put('/updatenotyincoming').then(function (response) {
-        _this2.updated = response.data;
-        _this2.unread = false;
+        _this.updated = response.data;
+        _this.incoming = '';
+        _this.incomingCount = 0;
+        _this.unread = false;
+      });
+    },
+    listen: function listen() {
+      var _this2 = this;
+
+      Echo["private"]('App.User.' + this.id).notification(function (notification) {
+        if (notification.type === 'App\\Notifications\\FriendRequestAccepted') {
+          _this2.incomingCount += 1;
+          _this2.incoming = 'NEW';
+
+          _this2.$toaster.success(notification.name + 'accpecpted your friend request');
+
+          _this2.$toaster.error('Refresh browser to see the update');
+        }
+
+        console.log(notification.type);
+        console.log(notification.name);
+        console.log(_this2.incoming);
       });
     }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    axios.get('/getnotyunread').then(function (response) {
+      _this3.unreadCount = response.data;
+    });
+    axios.get('/notification').then(function (response) {
+      _this3.notifications = response.data;
+    });
+    this.listen();
   }
 });
 
@@ -53783,12 +53819,20 @@ var render = function() {
               on: { click: _vm.updateUnread }
             },
             [
-              _vm.unread
+              _vm.unread && _vm.incomingCount != 0
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
                     [_vm._v(_vm._s(_vm.unreadCount.length))]
                   )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.incomingCount != 0
+                ? _c("span", { staticClass: "badge badge-pill red " }, [
+                    _vm._v(
+                      _vm._s(_vm.incoming) + ":" + _vm._s(_vm.incomingCount)
+                    )
+                  ])
                 : _vm._e()
             ]
           ),
@@ -54301,12 +54345,20 @@ var render = function() {
               on: { click: _vm.updateUnread }
             },
             [
-              _vm.unread
+              _vm.unread && _vm.incomingCount != 0
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
                     [_vm._v(_vm._s(_vm.unreadCount.length))]
                   )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.incomingCount != 0
+                ? _c("span", { staticClass: "badge badge-pill red" }, [
+                    _vm._v(
+                      _vm._s(_vm.incoming) + ":" + _vm._s(_vm.incomingCount)
+                    )
+                  ])
                 : _vm._e()
             ]
           ),
@@ -69563,7 +69615,7 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "00adcd9768079769a7da",
+  key: "d2503347d755b9309403",
   cluster: "ap2",
   encrypted: true
 }); //notification
@@ -70426,8 +70478,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
