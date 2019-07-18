@@ -3,10 +3,13 @@
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
                 <i class="fas fa-user-plus orange" style="font-size:18px;padding-right:15px" @click="updateUnread">
-                <span v-if="unread && incomingCount != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
-                <span v-if="incomingCount != 0" class="badge badge-pill red ">{{incoming}}:{{incomingCount}}</span>
+                    <span v-if="unread && unreadCount.length != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
+                    <span  v-if="unread && incomingCount != 0" class="badge badge-pill red">{{incoming}}  {{incomingCount}}</span>  
                 </i> 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="contact" v-if="users.length == 0">
+                            <p>No new friend request</p> 
+                        </div>
                     <li v-for="user in users" :key="user.id">
                         <div class="avatar">
                             <a :href="`/viewprofile/${user.id}`">
@@ -41,6 +44,11 @@
                 }
             },
             methods:{
+                // someAction (e) {
+                // e.stopPropagation()
+                // console.log('in some action')
+                // @click.prevent="someAction($event)"
+                // },
                 updateUnread(){
                     axios.put('/updateincoming')
                     .then((response) => {

@@ -3,20 +3,22 @@
         <li class="nav-item dropdown" style="none">
             <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-size:18px;padding-bottom:18px">
                 <i class="fas fa-bell yellow" style="font-size:18px;padding-right:15px" @click="updateUnread">
-                <span v-if="unread && incomingCount != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
-                <span  v-if="incomingCount != 0" class="badge badge-pill red">{{incoming}}:{{incomingCount}}</span>
-                </i>
-                    
+                    <span v-if="unread && unreadCount.length != 0" class="badge badge-pill white bg-danger">{{unreadCount.length}}</span>
+                    <span  v-if="incomingCount != 0" class="badge badge-pill red">{{incoming}}  {{incomingCount}}</span>
+                </i>                 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="contact" v-if="notifications.length == 0">
+                            <p>No new notification</p> 
+                        </div>
                     <li class="dropdown-item" v-for="notification in notifications" 
                     :key="notification.id">
                         <div class="contact" v-if="notifications.type = 'App\Notifications\NewFriendRequest'">
-                                <h5 style="font-size:10px;padding-bottom:18px">{{notification.data}}</h5>
-                                <h6 style="font-size:10px;padding-bottom:18px">{{notification.created_at}}</h6>
+                                <h5 style="font-size:10px">{{notification.data}}</h5>
+                                <h6 style="font-size:10px">{{notification.created_at}}</h6>
                         </div>
                         <div class="contact" v-else-if="notifications.type = 'App\Notifications\FriendRequestAccepted'">
-                                <h5 style="font-size:10px;padding-bottom:18px">{{notification.data}}</h5>
-                                <h6 style="font-size:10px;padding-bottom:18px">{{notification.created_at}}</h6>
+                                <h5 style="font-size:10px">{{notification.data}}</h5>
+                                <h6 style="font-size:10px">{{notification.created_at}}</h6>
                         </div>
                     </li>                  
                 </ul>

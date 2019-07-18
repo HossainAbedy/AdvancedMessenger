@@ -2137,6 +2137,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
   data: function data() {
@@ -2149,6 +2152,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // someAction (e) {
+    // e.stopPropagation()
+    // console.log('in some action')
+    // @click.prevent="someAction($event)"
+    // },
     updateUnread: function updateUnread() {
       var _this = this;
 
@@ -2585,6 +2593,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -53819,7 +53829,7 @@ var render = function() {
               on: { click: _vm.updateUnread }
             },
             [
-              _vm.unread && _vm.incomingCount != 0
+              _vm.unread && _vm.unreadCount.length != 0
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
@@ -53827,10 +53837,10 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.incomingCount != 0
-                ? _c("span", { staticClass: "badge badge-pill red " }, [
+              _vm.unread && _vm.incomingCount != 0
+                ? _c("span", { staticClass: "badge badge-pill red" }, [
                     _vm._v(
-                      _vm._s(_vm.incoming) + ":" + _vm._s(_vm.incomingCount)
+                      _vm._s(_vm.incoming) + "  " + _vm._s(_vm.incomingCount)
                     )
                   ])
                 : _vm._e()
@@ -53843,51 +53853,59 @@ var render = function() {
               staticClass: "dropdown-menu dropdown-menu-right",
               attrs: { "aria-labelledby": "navbarDropdown" }
             },
-            _vm._l(_vm.users, function(user) {
-              return _c("li", { key: user.id }, [
-                _c("div", { staticClass: "avatar" }, [
-                  _c("a", { attrs: { href: "/viewprofile/" + user.id } }, [
-                    _c("img", {
-                      staticClass: "user",
-                      attrs: {
-                        src: "/uploads/avatars/" + user.avatar,
-                        alt: user.name
-                      }
-                    })
+            [
+              _vm.users.length == 0
+                ? _c("div", { staticClass: "contact" }, [
+                    _c("p", [_vm._v("No new friend request")])
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "contact",
-                    staticStyle: { "padding-left": "20px" }
-                  },
-                  [
-                    _c(
-                      "p",
-                      {
-                        staticClass: "name",
-                        staticStyle: { "font-size": "15px" }
-                      },
-                      [_vm._v(_vm._s(user.name))]
-                    ),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "email" }, [
-                      _vm._v(_vm._s(user.email))
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.users, function(user) {
+                return _c("li", { key: user.id }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("a", { attrs: { href: "/viewprofile/" + user.id } }, [
+                      _c("img", {
+                        staticClass: "user",
+                        attrs: {
+                          src: "/uploads/avatars/" + user.avatar,
+                          alt: user.name
+                        }
+                      })
                     ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "contact" },
-                  [_c("Friendship", { attrs: { profile_user_id: user.id } })],
-                  1
-                )
-              ])
-            }),
-            0
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "contact",
+                      staticStyle: { "padding-left": "20px" }
+                    },
+                    [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "name",
+                          staticStyle: { "font-size": "15px" }
+                        },
+                        [_vm._v(_vm._s(user.name))]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "email" }, [
+                        _vm._v(_vm._s(user.email))
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "contact" },
+                    [_c("Friendship", { attrs: { profile_user_id: user.id } })],
+                    1
+                  )
+                ])
+              })
+            ],
+            2
           )
         ]
       )
@@ -54345,7 +54363,7 @@ var render = function() {
               on: { click: _vm.updateUnread }
             },
             [
-              _vm.unread && _vm.incomingCount != 0
+              _vm.unread && _vm.unreadCount.length != 0
                 ? _c(
                     "span",
                     { staticClass: "badge badge-pill white bg-danger" },
@@ -54356,7 +54374,7 @@ var render = function() {
               _vm.incomingCount != 0
                 ? _c("span", { staticClass: "badge badge-pill red" }, [
                     _vm._v(
-                      _vm._s(_vm.incoming) + ":" + _vm._s(_vm.incomingCount)
+                      _vm._s(_vm.incoming) + "  " + _vm._s(_vm.incomingCount)
                     )
                   ])
                 : _vm._e()
@@ -54369,65 +54387,46 @@ var render = function() {
               staticClass: "dropdown-menu dropdown-menu-right",
               attrs: { "aria-labelledby": "navbarDropdown" }
             },
-            _vm._l(_vm.notifications, function(notification) {
-              return _c(
-                "li",
-                { key: notification.id, staticClass: "dropdown-item" },
-                [
-                  (_vm.notifications.type = "AppNotificationsNewFriendRequest")
-                    ? _c("div", { staticClass: "contact" }, [
-                        _c(
-                          "h5",
-                          {
-                            staticStyle: {
-                              "font-size": "10px",
-                              "padding-bottom": "18px"
-                            }
-                          },
-                          [_vm._v(_vm._s(notification.data))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "h6",
-                          {
-                            staticStyle: {
-                              "font-size": "10px",
-                              "padding-bottom": "18px"
-                            }
-                          },
-                          [_vm._v(_vm._s(notification.created_at))]
-                        )
-                      ])
-                    : (_vm.notifications.type =
-                        "AppNotificationsFriendRequestAccepted")
-                    ? _c("div", { staticClass: "contact" }, [
-                        _c(
-                          "h5",
-                          {
-                            staticStyle: {
-                              "font-size": "10px",
-                              "padding-bottom": "18px"
-                            }
-                          },
-                          [_vm._v(_vm._s(notification.data))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "h6",
-                          {
-                            staticStyle: {
-                              "font-size": "10px",
-                              "padding-bottom": "18px"
-                            }
-                          },
-                          [_vm._v(_vm._s(notification.created_at))]
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              )
-            }),
-            0
+            [
+              _vm.notifications.length == 0
+                ? _c("div", { staticClass: "contact" }, [
+                    _c("p", [_vm._v("No new notification")])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.notifications, function(notification) {
+                return _c(
+                  "li",
+                  { key: notification.id, staticClass: "dropdown-item" },
+                  [
+                    (_vm.notifications.type =
+                      "AppNotificationsNewFriendRequest")
+                      ? _c("div", { staticClass: "contact" }, [
+                          _c("h5", { staticStyle: { "font-size": "10px" } }, [
+                            _vm._v(_vm._s(notification.data))
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticStyle: { "font-size": "10px" } }, [
+                            _vm._v(_vm._s(notification.created_at))
+                          ])
+                        ])
+                      : (_vm.notifications.type =
+                          "AppNotificationsFriendRequestAccepted")
+                      ? _c("div", { staticClass: "contact" }, [
+                          _c("h5", { staticStyle: { "font-size": "10px" } }, [
+                            _vm._v(_vm._s(notification.data))
+                          ]),
+                          _vm._v(" "),
+                          _c("h6", { staticStyle: { "font-size": "10px" } }, [
+                            _vm._v(_vm._s(notification.created_at))
+                          ])
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              })
+            ],
+            2
           )
         ]
       )
