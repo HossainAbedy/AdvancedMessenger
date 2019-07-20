@@ -2,7 +2,6 @@
     <div>
         <div v-if="globalmode" class="feed" ref="feed">
             <div class="jumbotron">
-                    <!-- <h2 style="color:black;text-align:center"><strong>Real time chatting platform</strong></h2> -->
             <div class="row">
             <div class="offset-4 col-4 offset-sm-1 col-sm-10 card bg-black">
                 <li class="list-group-item active">Chat Room 
@@ -29,10 +28,13 @@
                 <li v-for="message in messages" 
                 :class="`message${message.to == contact.id ? ' sent' : ' received'}`" 
                 :key="message.id" @click="showtime">
-                    <div class="text">
+                    <div v-if="!replyDiv" id="drag1" class="text" draggable="true" @dragstart="drag(message,$event)" >
                         {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
                     </div>
-                    <div class="image-container">
+                    <div v-if="replyDiv" id="drag2" class="reply" draggable="true" @dragstart="drag(message,$event)" >
+                     <p><strong>Reply</strong></p>{{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
+                    </div>
+                    <div id="drag3" class="image-container" draggable="true" @dragstart="drag($event)" >
                         <img v-if="message.image"  style="width:350px;height:350px" :src="'/storage/img/'+message.image" alt="">
                     </div>
                 </li>
@@ -72,7 +74,9 @@
                     time:[]
                 },
                 typing:'',
-                numberOfuser:0
+                draggingText:'',
+                numberOfuser:0,
+                replyDiv:false
             }
         },
         methods: {
@@ -84,7 +88,27 @@
             showtime(){
                 this.showtimechat=!this.showtimechat;
             },
-            //globalpart
+            //drag text part
+            allowDrop(ev) {
+                ev.preventDefault();
+            },
+            drag(message,ev) {
+                ev.dataTransfer.setData("Text", ev.target.id);
+                this.draggingText = message.text;
+                this.$eventBus.$emit('reply',this.draggingText);
+                if(this.replyDiv){
+                this.replyDiv =! this.replyDiv;
+                } 
+                console.log('response');
+                console.log(this.draggingText);
+            },
+
+            drop(ev) {
+                var data = ev.dataTransfer.getData("Text");
+                ev.target.appendChild(document.getElementById(data));
+                ev.preventDefault();
+            },
+            //global part
             send(){
                 if(this.message.length !=0){
                 this.chat.message.push(this.message);
@@ -144,6 +168,11 @@
                 name: this.message
                 });
             }
+        },
+        created(){
+                this.$eventBus.$on('sendReply', (sendreply) => {
+                this.replyDiv = sendreply;
+            });
         },
         mounted(){
            this.getOldMessages();
@@ -213,10 +242,19 @@
                     padding: 12px;
                     display: inline-block;
                 }
+                .reply {
+                    max-width: 200px;
+                    border-radius: 5px;
+                    padding: 12px;
+                    display: inline-block;
+                }
                     &.sent{
                         text-align: right;
                         .text{
                             background: #b2b2b2;
+                        }
+                        .reply{
+                            background: #03f3bf;
                         }
                     }
 
@@ -224,8 +262,17 @@
                         text-align: left;
                         .text{
                             background: #81c4f9;
+                        }
+                        .reply{
+                            background: #dbeb06;
+                        }
                     }
-                }
+                .drop{
+                    max-width: 200px;
+                    border-radius: 5px;
+                    padding: 12px;
+                    display: inline-block;
+                }    
              }
          }
      }

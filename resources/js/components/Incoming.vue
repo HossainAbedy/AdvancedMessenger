@@ -10,7 +10,7 @@
                         <div class="contact" v-if="users.length == 0">
                             <p>No new friend request</p> 
                         </div>
-                    <li v-for="user in users" :key="user.id">
+                    <li class="dropdown-item" v-for="user in users" :key="user.id">
                         <div class="avatar">
                             <a :href="`/viewprofile/${user.id}`">
                                 <img class="user" :src="'/uploads/avatars/'+user.avatar" :alt="user.name">
@@ -44,11 +44,6 @@
                 }
             },
             methods:{
-                // someAction (e) {
-                // e.stopPropagation()
-                // console.log('in some action')
-                // @click.prevent="someAction($event)"
-                // },
                 updateUnread(){
                     axios.put('/updateincoming')
                     .then((response) => {

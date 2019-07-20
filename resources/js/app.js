@@ -16,7 +16,7 @@ Vue.use(VueChatScroll)
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 Vue.use(Toaster, {timeout:5000})
-
+Vue.prototype.$eventBus = new Vue()
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

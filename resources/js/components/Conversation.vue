@@ -48,6 +48,9 @@
             switchGlobal(){
                 this.globalmode= !this.globalmode;
             },
+            // getReply(draggingText){
+            //     this.reply  = draggingText; 
+            // }
         },
         components:{
             MessagesFeed,

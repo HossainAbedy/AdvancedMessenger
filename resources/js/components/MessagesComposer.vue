@@ -6,7 +6,10 @@
     <div class="totalcomposer">
         <div class="maincomposer">
             <div class="textareaB" v-if="emoStatus">
-                <div class="text"> 
+                <div class="text">
+                    <span v-if="sendreply">
+                       In reply of {{reply}}
+                    </span>
                     <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
                 </div>
                 <div class="emo">
@@ -14,7 +17,10 @@
                 </div>
             </div>
             <div class="textareaA" v-else>
-                <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
+                <span v-if="sendreply">
+                    In reply of: {{reply}}
+                </span>
+                    <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
             </div>
         </div>
         <div class="sidecomposer">
@@ -57,7 +63,7 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
             },
             globalmode:{
                 type:Boolean,
-            }
+            },
         },
          data() {
             return {
@@ -65,7 +71,9 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                 typing:'',
                 emoStatus:false,
                 files:[],
-                token:document.head.querySelector('meta[name="csrf-token"]').content
+                token:document.head.querySelector('meta[name="csrf-token"]').content,
+                sendreply:false,
+                reply:''
             };
         },
         methods:{
@@ -74,8 +82,15 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                if(this.message==''){
                    return;
                }
-               this.$emit('send',this.message);
-               this.message='';
+               else if(this.sendreply){
+                    this.$emit('send',this.reply+"=>"+this.message);
+                    this.$eventBus.$emit('sendReply',this.sendreply);
+                    this.message='';
+               }
+               else{
+                    this.$emit('send',this.message);
+                    this.message='';
+                }   
             },
             toggleEmo(){
                this.emoStatus= !this.emoStatus;
@@ -90,11 +105,11 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                     this.message=this.message + e.native;
                 }
                     //  this.emoStatus=false;
-                },
+            },
             global(){
-                this.globamode= !this.globalmode;
+                this.globamode =! this.globalmode;
                 this.$emit('global',this.globalmode);
-            }    
+            },
         },
         watch:{
             message(){
@@ -103,6 +118,12 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                 name: this.message
                 });
             }
+        },
+        created(){
+                this.$eventBus.$on('reply', (draggingText) => {
+                this.reply = draggingText;
+                this.sendreply =! this.sendreply; 
+            });
         },
         mounted() {
             Echo.private('chat')
@@ -114,8 +135,7 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                     }else{
                         this.typing='';
                     }  
-               
-                })
+            })
         },     
     }
 </script>

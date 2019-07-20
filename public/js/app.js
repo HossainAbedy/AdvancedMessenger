@@ -2152,11 +2152,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    // someAction (e) {
-    // e.stopPropagation()
-    // console.log('in some action')
-    // @click.prevent="someAction($event)"
-    // },
     updateUnread: function updateUnread() {
       var _this = this;
 
@@ -2304,6 +2299,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2328,7 +2329,9 @@ __webpack_require__.r(__webpack_exports__);
       typing: '',
       emoStatus: false,
       files: [],
-      token: document.head.querySelector('meta[name="csrf-token"]').content
+      token: document.head.querySelector('meta[name="csrf-token"]').content,
+      sendreply: false,
+      reply: ''
     };
   },
   methods: {
@@ -2337,10 +2340,14 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.message == '') {
         return;
+      } else if (this.sendreply) {
+        this.$emit('send', this.reply + "=>" + this.message);
+        this.$eventBus.$emit('sendReply', this.sendreply);
+        this.message = '';
+      } else {
+        this.$emit('send', this.message);
+        this.message = '';
       }
-
-      this.$emit('send', this.message);
-      this.message = '';
     },
     toggleEmo: function toggleEmo() {
       this.emoStatus = !this.emoStatus;
@@ -2369,14 +2376,22 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
+
+    this.$eventBus.$on('reply', function (draggingText) {
+      _this.reply = draggingText;
+      _this.sendreply = !_this.sendreply;
+    });
+  },
+  mounted: function mounted() {
+    var _this2 = this;
 
     Echo["private"]('chat').listen('ChatEvent', function (e) {}).listenForWhisper('typing', function (e) {
       if (e.name != '') {
-        _this.typing = 'Typing.....';
+        _this2.typing = 'Typing.....';
       } else {
-        _this.typing = '';
+        _this2.typing = '';
       }
     });
   }
@@ -2393,6 +2408,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2466,7 +2483,9 @@ __webpack_require__.r(__webpack_exports__);
         time: []
       },
       typing: '',
-      numberOfuser: 0
+      draggingText: '',
+      numberOfuser: 0,
+      replyDiv: false
     };
   },
   methods: {
@@ -2480,7 +2499,28 @@ __webpack_require__.r(__webpack_exports__);
     showtime: function showtime() {
       this.showtimechat = !this.showtimechat;
     },
-    //globalpart
+    //drag text part
+    allowDrop: function allowDrop(ev) {
+      ev.preventDefault();
+    },
+    drag: function drag(message, ev) {
+      ev.dataTransfer.setData("Text", ev.target.id);
+      this.draggingText = message.text;
+      this.$eventBus.$emit('reply', this.draggingText);
+
+      if (this.replyDiv) {
+        this.replyDiv = !this.replyDiv;
+      }
+
+      console.log('response');
+      console.log(this.draggingText);
+    },
+    drop: function drop(ev) {
+      var data = ev.dataTransfer.getData("Text");
+      ev.target.appendChild(document.getElementById(data));
+      ev.preventDefault();
+    },
+    //global part
     send: function send() {
       var _this2 = this;
 
@@ -2540,44 +2580,51 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this5 = this;
+
+    this.$eventBus.$on('sendReply', function (sendreply) {
+      _this5.replyDiv = sendreply;
+    });
+  },
+  mounted: function mounted() {
+    var _this6 = this;
 
     this.getOldMessages();
     Echo["private"]('chat').listen('ChatEvent', function (e) {
-      _this5.chat.message.push(e.message);
+      _this6.chat.message.push(e.message);
 
-      _this5.chat.user.push(e.user);
+      _this6.chat.user.push(e.user);
 
-      _this5.chat.pos.push('float-left');
+      _this6.chat.pos.push('float-left');
 
-      _this5.chat.color.push('info');
+      _this6.chat.color.push('info');
 
-      _this5.chat.time.push(_this5.getTime()); //  console.log(e);
+      _this6.chat.time.push(_this6.getTime()); //  console.log(e);
 
 
       axios.post('/saveTosession', {
-        chat: _this5.chat
+        chat: _this6.chat
       }).then(function (response) {})["catch"](function (error) {
         console.log(error);
       });
     }).listenForWhisper('typing', function (e) {
       if (e.name != '') {
-        _this5.typing = 'Typing.....';
+        _this6.typing = 'Typing.....';
       } else {
-        _this5.typing = '';
+        _this6.typing = '';
       }
     });
     Echo.join("chat").here(function (users) {
-      _this5.numberOfuser = users.length;
+      _this6.numberOfuser = users.length;
     }).joining(function (user) {
-      _this5.numberOfuser += 1;
+      _this6.numberOfuser += 1;
 
-      _this5.$toaster.success(user.name + ' just joined this room');
+      _this6.$toaster.success(user.name + ' just joined this room');
     }).leaving(function (user) {
-      _this5.numberOfuser -= 1;
+      _this6.numberOfuser -= 1;
 
-      _this5.$toaster.warning(user.name + ' just left this room');
+      _this6.$toaster.warning(user.name + ' just left this room');
     });
   }
 });
@@ -7429,7 +7476,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}", ""]);
+exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message .reply[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent .reply[data-v-4b6ab3f5] {\n  background: #03f3bf;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}\n.feed ul li.message.received .reply[data-v-4b6ab3f5] {\n  background: #dbeb06;\n}\n.feed ul li.message .drop[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}", ""]);
 
 // exports
 
@@ -53861,48 +53908,56 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _vm._l(_vm.users, function(user) {
-                return _c("li", { key: user.id }, [
-                  _c("div", { staticClass: "avatar" }, [
-                    _c("a", { attrs: { href: "/viewprofile/" + user.id } }, [
-                      _c("img", {
-                        staticClass: "user",
-                        attrs: {
-                          src: "/uploads/avatars/" + user.avatar,
-                          alt: user.name
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "contact",
-                      staticStyle: { "padding-left": "20px" }
-                    },
-                    [
-                      _c(
-                        "p",
-                        {
-                          staticClass: "name",
-                          staticStyle: { "font-size": "15px" }
-                        },
-                        [_vm._v(_vm._s(user.name))]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "email" }, [
-                        _vm._v(_vm._s(user.email))
+                return _c(
+                  "li",
+                  { key: user.id, staticClass: "dropdown-item" },
+                  [
+                    _c("div", { staticClass: "avatar" }, [
+                      _c("a", { attrs: { href: "/viewprofile/" + user.id } }, [
+                        _c("img", {
+                          staticClass: "user",
+                          attrs: {
+                            src: "/uploads/avatars/" + user.avatar,
+                            alt: user.name
+                          }
+                        })
                       ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "contact" },
-                    [_c("Friendship", { attrs: { profile_user_id: user.id } })],
-                    1
-                  )
-                ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "contact",
+                        staticStyle: { "padding-left": "20px" }
+                      },
+                      [
+                        _c(
+                          "p",
+                          {
+                            staticClass: "name",
+                            staticStyle: { "font-size": "15px" }
+                          },
+                          [_vm._v(_vm._s(user.name))]
+                        ),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "email" }, [
+                          _vm._v(_vm._s(user.email))
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "contact" },
+                      [
+                        _c("Friendship", {
+                          attrs: { profile_user_id: user.id }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
               })
             ],
             2
@@ -53996,6 +54051,16 @@ var render = function() {
           _vm.emoStatus
             ? _c("div", { staticClass: "textareaB" }, [
                 _c("div", { staticClass: "text" }, [
+                  _vm.sendreply
+                    ? _c("span", [
+                        _vm._v(
+                          "\r\n                       In reply of " +
+                            _vm._s(_vm.reply) +
+                            "\r\n                    "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("textarea", {
                     directives: [
                       {
@@ -54048,6 +54113,16 @@ var render = function() {
                 )
               ])
             : _c("div", { staticClass: "textareaA" }, [
+                _vm.sendreply
+                  ? _c("span", [
+                      _vm._v(
+                        "\r\n                    In reply of: " +
+                          _vm._s(_vm.reply) +
+                          "\r\n                "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("textarea", {
                   directives: [
                     {
@@ -54289,27 +54364,83 @@ var render = function() {
                       on: { click: _vm.showtime }
                     },
                     [
-                      _c("div", { staticClass: "text" }, [
-                        _vm._v("\n                    " + _vm._s(message.text)),
-                        _c("br"),
-                        _vm.showtimechat
-                          ? _c("span", [
-                              _vm._v(" " + _vm._s(message.created_at))
-                            ])
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "image-container" }, [
-                        message.image
-                          ? _c("img", {
-                              staticStyle: { width: "350px", height: "350px" },
-                              attrs: {
-                                src: "/storage/img/" + message.image,
-                                alt: ""
+                      !_vm.replyDiv
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "text",
+                              attrs: { id: "drag1", draggable: "true" },
+                              on: {
+                                dragstart: function($event) {
+                                  return _vm.drag(message, $event)
+                                }
                               }
-                            })
-                          : _vm._e()
-                      ])
+                            },
+                            [
+                              _vm._v(
+                                "\n                    " + _vm._s(message.text)
+                              ),
+                              _c("br"),
+                              _vm.showtimechat
+                                ? _c("span", [
+                                    _vm._v(" " + _vm._s(message.created_at))
+                                  ])
+                                : _vm._e()
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.replyDiv
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "reply",
+                              attrs: { id: "drag2", draggable: "true" },
+                              on: {
+                                dragstart: function($event) {
+                                  return _vm.drag(message, $event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._m(0, true),
+                              _vm._v(_vm._s(message.text)),
+                              _c("br"),
+                              _vm.showtimechat
+                                ? _c("span", [
+                                    _vm._v(" " + _vm._s(message.created_at))
+                                  ])
+                                : _vm._e()
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "image-container",
+                          attrs: { id: "drag3", draggable: "true" },
+                          on: {
+                            dragstart: function($event) {
+                              return _vm.drag($event)
+                            }
+                          }
+                        },
+                        [
+                          message.image
+                            ? _c("img", {
+                                staticStyle: {
+                                  width: "350px",
+                                  height: "350px"
+                                },
+                                attrs: {
+                                  src: "/storage/img/" + message.image,
+                                  alt: ""
+                                }
+                              })
+                            : _vm._e()
+                        ]
+                      )
                     ]
                   )
                 }),
@@ -54319,7 +54450,14 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("strong", [_vm._v("Reply")])])
+  }
+]
 render._withStripped = true
 
 
@@ -69517,6 +69655,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_chat_scroll__WEBPACK_IMPORTED
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_toaster__WEBPACK_IMPORTED_MODULE_2___default.a, {
   timeout: 5000
 });
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$eventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -69614,7 +69753,7 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "d2503347d755b9309403",
+  key: "00adcd9768079769a7da",
   cluster: "ap2",
   encrypted: true
 }); //notification
@@ -70477,8 +70616,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
