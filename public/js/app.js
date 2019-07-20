@@ -1990,8 +1990,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      globalmode: false
+      globalmode: false,
+      //replypart
+      draggingText: '',
+      draggingId: '',
+      //updatareply
+      replyStatus: false,
+      replyText: '',
+      messageText: '',
+      replyTextId: ''
     };
+  },
+  components: {
+    MessagesFeed: _MessagesFeed__WEBPACK_IMPORTED_MODULE_0__["default"],
+    MessagesComposer: _MessagesComposer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
     sendMessage: function sendMessage(text) {
@@ -1999,22 +2011,39 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.contact) {
         return;
+      } else if (this.replyStatus) {
+        axios.post('/conversation/send', {
+          replyTextId: this.replyTextId,
+          replyText: this.replyText,
+          // messageText:this.messageText, 
+          // replyStatus:this.replyStatus,
+          contact_id: this.contact.id,
+          text: text
+        }).then(function (response) {
+          _this.$emit('new', response.data);
+        });
+      } else {
+        axios.post('/conversation/send', {
+          contact_id: this.contact.id,
+          text: text
+        }).then(function (response) {
+          _this.$emit('new', response.data);
+        });
       }
-
-      axios.post('/conversation/send', {
-        contact_id: this.contact.id,
-        text: text
-      }).then(function (response) {
-        _this.$emit('new', response.data);
-      });
     },
     switchGlobal: function switchGlobal() {
       this.globalmode = !this.globalmode;
     }
   },
-  components: {
-    MessagesFeed: _MessagesFeed__WEBPACK_IMPORTED_MODULE_0__["default"],
-    MessagesComposer: _MessagesComposer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  created: function created() {
+    var _this2 = this;
+
+    this.$eventBus.$on('sendReply', function (sendreply, reply, message, replyId) {
+      _this2.replyStatus = sendreply;
+      _this2.replyText = reply;
+      _this2.messageText = message;
+      _this2.replyTextId = replyId;
+    });
   }
 });
 
@@ -2330,8 +2359,10 @@ __webpack_require__.r(__webpack_exports__);
       emoStatus: false,
       files: [],
       token: document.head.querySelector('meta[name="csrf-token"]').content,
+      //replypart
       sendreply: false,
-      reply: ''
+      reply: '',
+      replyId: ''
     };
   },
   methods: {
@@ -2341,8 +2372,8 @@ __webpack_require__.r(__webpack_exports__);
       if (this.message == '') {
         return;
       } else if (this.sendreply) {
-        this.$emit('send', this.reply + "    |----->   " + this.message);
-        this.$eventBus.$emit('sendReply', this.sendreply);
+        this.$emit('send', this.message);
+        this.$eventBus.$emit('sendReply', this.sendreply, this.reply, this.message, this.replyId);
         this.message = '';
       } else {
         this.$emit('send', this.message);
@@ -2379,8 +2410,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.$eventBus.$on('reply', function (draggingText) {
+    this.$eventBus.$on('reply', function (draggingText, draggingId) {
       _this.reply = draggingText;
+      _this.replyId = draggingId;
       _this.sendreply = !_this.sendreply;
     });
   },
@@ -2408,6 +2440,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2483,9 +2518,14 @@ __webpack_require__.r(__webpack_exports__);
         time: []
       },
       typing: '',
-      draggingText: '',
       numberOfuser: 0,
-      replyDiv: false
+      //replypart
+      draggingText: '',
+      draggingId: '',
+      replyDiv: false,
+      replyText: '',
+      messageText: '',
+      replyTextId: ''
     };
   },
   methods: {
@@ -2506,7 +2546,8 @@ __webpack_require__.r(__webpack_exports__);
     drag: function drag(message, ev) {
       ev.dataTransfer.setData("Text", ev.target.id);
       this.draggingText = message.text;
-      this.$eventBus.$emit('reply', this.draggingText);
+      this.draggingId = message.id;
+      this.$eventBus.$emit('reply', this.draggingText, this.draggingId);
 
       if (this.replyDiv) {
         this.replyDiv = !this.replyDiv;
@@ -2583,13 +2624,17 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this5 = this;
 
-    this.$eventBus.$on('sendReply', function (sendreply) {
+    this.$eventBus.$on('sendReply', function (sendreply, reply, message, replyId) {
       _this5.replyDiv = sendreply;
+      _this5.replyText = reply;
+      _this5.messageText = message;
+      _this5.replyTextId = replyId;
     });
   },
   mounted: function mounted() {
     var _this6 = this;
 
+    this.scrollToBottom();
     this.getOldMessages();
     Echo["private"]('chat').listen('ChatEvent', function (e) {
       _this6.chat.message.push(e.message);
@@ -7457,7 +7502,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".composer[data-v-64aa86f7] {\n  height: 300px;\n}\n.composer .textareaA textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 240px;\n  margin: 10px;\n  resize: none;\n  border-radius: 2px;\n  border: 1px solid lightgrey;\n}\n.composer .text textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 100%;\n  border: 1px solid lightgrey;\n}\n.composer .text[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .emo[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .textareaB[data-v-64aa86f7] {\n  display: flex;\n}\n.composer .totalcomposer[data-v-64aa86f7] {\n  height: 250px;\n  display: flex;\n}\n.composer .sidecomposer[data-v-64aa86f7] {\n  margin: 5px;\n  padding: 5px;\n  flex: 10%;\n}\n.composer .maincomposer[data-v-64aa86f7] {\n  flex: 90%;\n}", ""]);
+exports.push([module.i, ".composer[data-v-64aa86f7] {\n  height: 300px;\n}\n.composer .textareaA textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 240px;\n  margin: 10px;\n  resize: none;\n  border-radius: 2px;\n  border: 1px solid lightgrey;\n}\n.composer .text textarea[data-v-64aa86f7] {\n  width: 100%;\n  height: 100%;\n  border: 1px solid lightgrey;\n  position: relative;\n}\n.composer .text[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .emo[data-v-64aa86f7] {\n  flex: 50%;\n}\n.composer .textareaB[data-v-64aa86f7] {\n  display: flex;\n}\n.composer .totalcomposer[data-v-64aa86f7] {\n  height: 250px;\n  display: flex;\n}\n.composer .sidecomposer[data-v-64aa86f7] {\n  margin: 5px;\n  padding: 5px;\n  flex: 10%;\n}\n.composer .maincomposer[data-v-64aa86f7] {\n  flex: 90%;\n}", ""]);
 
 // exports
 
@@ -7476,7 +7521,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message .reply[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent .reply[data-v-4b6ab3f5] {\n  background: #03f3bf;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}\n.feed ul li.message.received .reply[data-v-4b6ab3f5] {\n  background: #dbeb06;\n}\n.feed ul li.message .drop[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}", ""]);
+exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message .reply[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent .reply[data-v-4b6ab3f5] {\n  background: #03f3bf;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}\n.feed ul li.message.received .reply[data-v-4b6ab3f5] {\n  background: #dbeb06;\n}\n.feed ul li.message .drop[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}", ""]);
 
 // exports
 
@@ -54052,13 +54097,17 @@ var render = function() {
             ? _c("div", { staticClass: "textareaB" }, [
                 _c("div", { staticClass: "text" }, [
                   _vm.sendreply
-                    ? _c("span", [
-                        _vm._v(
-                          "\r\n                       In reply of " +
-                            _vm._s(_vm.reply) +
-                            "\r\n                    "
-                        )
-                      ])
+                    ? _c(
+                        "span",
+                        { staticClass: "badge badge-pill white bg-info" },
+                        [
+                          _vm._v(
+                            "\r\n                       In reply of " +
+                              _vm._s(_vm.reply) +
+                              "\r\n                    "
+                          )
+                        ]
+                      )
                     : _vm._e(),
                   _vm._v(" "),
                   _c("textarea", {
@@ -54368,56 +54417,49 @@ var render = function() {
                       on: { click: _vm.showtime }
                     },
                     [
-                      !_vm.replyDiv
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "text",
-                              attrs: { id: "drag1", draggable: "true" },
-                              on: {
-                                dragstart: function($event) {
-                                  return _vm.drag(message, $event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    " + _vm._s(message.text)
-                              ),
-                              _c("br"),
-                              _vm.showtimechat
-                                ? _c("span", [
-                                    _vm._v(" " + _vm._s(message.created_at))
+                      _c(
+                        "div",
+                        {
+                          staticClass: "text",
+                          attrs: { id: "drag1", draggable: "true" },
+                          on: {
+                            dragstart: function($event) {
+                              return _vm.drag(message, $event)
+                            }
+                          }
+                        },
+                        [
+                          (message.replyText = !null)
+                            ? _c("div", { staticClass: "reply" }, [
+                                _c("p", { staticStyle: { color: "red" } }, [
+                                  _vm._v("replied:")
+                                ]),
+                                _c("p", { staticStyle: { color: "orange" } }, [
+                                  _c("strong", [
+                                    _vm._v(_vm._s(message.replyText))
                                   ])
-                                : _vm._e()
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.replyDiv
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "reply",
-                              attrs: { id: "drag2", draggable: "true" },
-                              on: {
-                                dragstart: function($event) {
-                                  return _vm.drag(message, $event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._m(0, true),
-                              _vm._v(_vm._s(message.text)),
-                              _c("br"),
-                              _vm.showtimechat
-                                ? _c("span", [
-                                    _vm._v(" " + _vm._s(message.created_at))
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
-                        : _vm._e(),
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _vm.showtimechat
+                                  ? _c("span", [
+                                      _vm._v(" " + _vm._s(message.created_at))
+                                    ])
+                                  : _vm._e()
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm._v(
+                            "\n                        " + _vm._s(message.text)
+                          ),
+                          _c("br"),
+                          _vm.showtimechat
+                            ? _c("span", [
+                                _vm._v(" " + _vm._s(message.created_at))
+                              ])
+                            : _vm._e()
+                        ]
+                      ),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -54454,14 +54496,7 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Reply")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

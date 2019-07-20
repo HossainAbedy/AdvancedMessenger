@@ -28,11 +28,14 @@
                 <li v-for="message in messages" 
                 :class="`message${message.to == contact.id ? ' sent' : ' received'}`" 
                 :key="message.id" @click="showtime">
-                    <div v-if="!replyDiv" id="drag1" class="text" draggable="true" @dragstart="drag(message,$event)" >
-                        {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
-                    </div>
-                    <div v-if="replyDiv" id="drag2" class="reply" draggable="true" @dragstart="drag(message,$event)" >
-                     <p><strong>Reply</strong></p>{{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
+                    <div id="drag1" class="text" draggable="true" @dragstart="drag(message,$event)" >
+                        <div v-if="message.replyText =! null" class="reply">
+                            <p style="color:red">replied:</p><p style="color:orange"><strong>{{message.replyText}}</strong></p><br>
+                                <span v-if="showtimechat"> {{message.created_at}}</span>
+                        </div>
+                        <!-- <div v-else-if="replyText == null" class="text">    -->
+                            {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
+                        <!-- </div> -->
                     </div>
                     <div id="drag3" class="image-container" draggable="true" @dragstart="drag($event)" >
                         <img v-if="message.image"  style="width:350px;height:350px" :src="'/storage/img/'+message.image" alt="">
@@ -74,9 +77,14 @@
                     time:[]
                 },
                 typing:'',
-                draggingText:'',
                 numberOfuser:0,
-                replyDiv:false
+                //replypart
+                draggingText:'',
+                draggingId:'',
+                replyDiv:false,
+                replyText:'',
+                messageText:'',
+                replyTextId:'',
             }
         },
         methods: {
@@ -95,7 +103,8 @@
             drag(message,ev) {
                 ev.dataTransfer.setData("Text", ev.target.id);
                 this.draggingText = message.text;
-                this.$eventBus.$emit('reply',this.draggingText);
+                this.draggingId = message.id;
+                this.$eventBus.$emit('reply',this.draggingText,this.draggingId);
                 if(this.replyDiv){
                 this.replyDiv =! this.replyDiv;
                 } 
@@ -170,11 +179,15 @@
             }
         },
         created(){
-                this.$eventBus.$on('sendReply', (sendreply) => {
+                this.$eventBus.$on('sendReply', (sendreply,reply,message,replyId) => {
                 this.replyDiv = sendreply;
+                this.replyText = reply;
+                this.messageText = message;
+                this.replyTextId = replyId
             });
         },
         mounted(){
+           this.scrollToBottom(); 
            this.getOldMessages();
                 Echo.private('chat')
                     .listen('ChatEvent', (e) => {
@@ -246,7 +259,6 @@
                     max-width: 200px;
                     border-radius: 5px;
                     padding: 12px;
-                    display: inline-block;
                 }
                     &.sent{
                         text-align: right;

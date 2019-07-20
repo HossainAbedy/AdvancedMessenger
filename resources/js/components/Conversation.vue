@@ -31,19 +31,45 @@
         data() {
             return {
                 globalmode:false,
+                //replypart
+                draggingText:'',
+                draggingId:'',
+                //updatareply
+                replyStatus:false,
+                replyText:'',
+                messageText:'',
+                replyTextId:'',
             };
+        },
+        components:{
+            MessagesFeed,
+            MessagesComposer
         },
         methods:{
             sendMessage(text){
             if (!this.contact) {
                     return;
                 }
-                axios.post('/conversation/send', {
+                else if(this.replyStatus){
+                    axios.post('/conversation/send', {
+                    replyTextId:this.replyTextId,       
+                    replyText:this.replyText,
+                    // messageText:this.messageText, 
+                    // replyStatus:this.replyStatus,
+
                     contact_id: this.contact.id,
                     text: text,
-                }).then((response) => {
+                    }).then((response) => {
                     this.$emit('new', response.data);
-                })
+                    }) 
+                }else{
+                    axios.post('/conversation/send', {
+                    contact_id: this.contact.id,
+                    text: text,
+                    }).then((response) => {
+                    this.$emit('new', response.data);
+                    }) 
+                }
             },
             switchGlobal(){
                 this.globalmode= !this.globalmode;
@@ -52,10 +78,14 @@
             //     this.reply  = draggingText; 
             // }
         },
-        components:{
-            MessagesFeed,
-            MessagesComposer
-        }
+         created(){
+                this.$eventBus.$on('sendReply', (sendreply,reply,message,replyId) => {
+                this.replyStatus = sendreply;
+                this.replyText = reply;
+                this.messageText = message;
+                this.replyTextId = replyId
+            });
+        },
     }
 </script>
 

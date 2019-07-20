@@ -104,7 +104,9 @@ class ContactsController extends Controller
         $message = Message::create([
             'from' => auth()->id(),
             'to' => $request->contact_id,
-            'text' => $request->text
+            'text' => $request->text,
+            'replyTextId' => $request->replyTextId,
+            'replyText' => $request->replyText
         ]);
         }
         broadcast(new NewMessage($message));

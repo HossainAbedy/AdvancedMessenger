@@ -7,7 +7,7 @@
         <div class="maincomposer">
             <div class="textareaB" v-if="emoStatus">
                 <div class="text">
-                    <span v-if="sendreply">
+                    <span v-if="sendreply" class="badge badge-pill white bg-info">
                        In reply of {{reply}}
                     </span>
                     <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="textareaA" v-else>
-                <span v-if="sendreply" class="badge badge-pill white bg-info" >
+                <span v-if="sendreply" class="badge badge-pill white bg-info">
                     In reply of: {{reply}}
                 </span>
                     <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
@@ -72,8 +72,10 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                 emoStatus:false,
                 files:[],
                 token:document.head.querySelector('meta[name="csrf-token"]').content,
+                //replypart
                 sendreply:false,
-                reply:''
+                reply:'',
+                replyId:'',
             };
         },
         methods:{
@@ -83,8 +85,8 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                    return;
                }
                else if(this.sendreply){
-                    this.$emit('send',this.reply+"    |----->   "+this.message);
-                    this.$eventBus.$emit('sendReply',this.sendreply);
+                    this.$emit('send',this.message);
+                    this.$eventBus.$emit('sendReply',this.sendreply,this.reply,this.message,this.replyId);
                     this.message='';
                }
                else{
@@ -120,8 +122,9 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
             }
         },
         created(){
-                this.$eventBus.$on('reply', (draggingText) => {
+                this.$eventBus.$on('reply', (draggingText,draggingId) => {
                 this.reply = draggingText;
+                this.replyId = draggingId;
                 this.sendreply =! this.sendreply; 
             });
         },
@@ -151,12 +154,12 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
             resize: none;
             border-radius: 2px;
             border: 1px solid lightgrey;
-        
         }
         .text textarea{
             width: 100%;
             height:100%;
             border: 1px solid lightgrey;
+            position:relative
         }
         .text{
             flex:50%;

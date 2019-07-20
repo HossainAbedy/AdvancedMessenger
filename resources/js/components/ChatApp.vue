@@ -54,7 +54,7 @@ import Contactlist from './Contactlist';
             saveNewMessage(message) {
                 this.messages.push(message);
             },
-             hanleIncoming(message) {
+            hanleIncoming(message) {
                 if (this.selectedContact && message.from == this.selectedContact.id) {
                     this.saveNewMessage(message);
                     return;
