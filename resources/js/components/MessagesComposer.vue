@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="textareaA" v-else>
-                <span v-if="sendreply">
+                <span v-if="sendreply" class="badge badge-pill white bg-info" >
                     In reply of: {{reply}}
                 </span>
                     <textarea v-model="message" @keydown.enter="send" placeholder="Message..."></textarea>
@@ -83,7 +83,7 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                    return;
                }
                else if(this.sendreply){
-                    this.$emit('send',this.reply+"=>"+this.message);
+                    this.$emit('send',this.reply+"    |----->   "+this.message);
                     this.$eventBus.$emit('sendReply',this.sendreply);
                     this.message='';
                }

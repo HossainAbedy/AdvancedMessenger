@@ -2341,7 +2341,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.message == '') {
         return;
       } else if (this.sendreply) {
-        this.$emit('send', this.reply + "=>" + this.message);
+        this.$emit('send', this.reply + "    |----->   " + this.message);
         this.$eventBus.$emit('sendReply', this.sendreply);
         this.message = '';
       } else {
@@ -54114,13 +54114,17 @@ var render = function() {
               ])
             : _c("div", { staticClass: "textareaA" }, [
                 _vm.sendreply
-                  ? _c("span", [
-                      _vm._v(
-                        "\r\n                    In reply of: " +
-                          _vm._s(_vm.reply) +
-                          "\r\n                "
-                      )
-                    ])
+                  ? _c(
+                      "span",
+                      { staticClass: "badge badge-pill white bg-info" },
+                      [
+                        _vm._v(
+                          "\r\n                    In reply of: " +
+                            _vm._s(_vm.reply) +
+                            "\r\n                "
+                        )
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 _c("textarea", {
