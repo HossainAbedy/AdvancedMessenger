@@ -33,7 +33,11 @@
                         <Friendship :profile_user_id="user.id"></Friendship>
                     </div>
                  </li>
-                </ul>      
+                </ul>
+                <pagination :data="usersData" @pagination-change-page="getResults">
+                    <span slot="prev-nav">&lt; Previous</span>
+	                <span slot="next-nav">Next &gt;</span>
+                </pagination>      
             </div>    
         </div>
         <div v-if="listfriends">
@@ -71,8 +75,8 @@ import Friendship from './Friendship';
                 default:[]
             },
             users:{
-                type: Array,
-                default:[]
+                type: Object,
+                default:{}
             }
         },
         data(){
@@ -82,6 +86,8 @@ import Friendship from './Friendship';
                 searchfriends: false,
                 listfriends:true,
                 search: '',
+                //pagination
+                usersData: {},
             };
         },
         methods:{
@@ -89,13 +95,20 @@ import Friendship from './Friendship';
                 this.selected=contact;
                 this.$emit('selected',contact);
             },
-           togglelist(){
+            togglelist(){
                 this.searchfriends =! this.searchfriends;
                 this.listfriends =! this.listfriends;
             },
             searchit: _.debounce(() => {
                 Fire.$emit('searching');
             },1000),
+            //pagination
+            getResults(page = 1) {
+			axios.get('users/?page=' + page)
+				.then(response => {
+					this.usersData = response.data;
+				});
+		    }
         },
         computed: {
             sortedContacts() {
@@ -108,12 +121,13 @@ import Friendship from './Friendship';
                 }]).reverse();
             },
             filteredusers: function(){
-                return this.users.filter((user)=>{
+                return this.usersData.data.filter((user)=>{
                     return user.name.match(this.search);
                 });
             }
         },
         mounted(){
+             this.getResults();
              Echo.join(`chat`)
                 .here((user) => {
                    console.log(user);

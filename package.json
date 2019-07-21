@@ -28,6 +28,7 @@
         "emoji-mart-vue-fast": "^5.4.14",
         "gulp": "^4.0.2",
         "laravel-echo": "^1.5.4",
+        "laravel-vue-pagination": "^2.3.0",
         "noty": "^3.2.0-beta",
         "pusher-js": "^4.4.0",
         "v-toaster": "^1.0.3",

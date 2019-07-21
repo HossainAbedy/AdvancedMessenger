@@ -13,7 +13,7 @@ class ContactsController extends Controller
 {
     public function getall(){
         // get all users except the authenticated one
-        $users = User::where('id', '!=', auth()->id())->get();
+        $users = User::where('id', '!=', auth()->id())->paginate(10);
         return response()->json($users);
     }
 

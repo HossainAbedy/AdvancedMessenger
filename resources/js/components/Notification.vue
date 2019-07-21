@@ -10,7 +10,7 @@
                         <div class="contact" v-if="notifications.length == 0">
                             <p>No new notification</p> 
                         </div>
-                    <li class="dropdown-item" v-for="notification in notifications" 
+                    <li class="dropdown-item" v-for="notification in notifications.data" 
                     :key="notification.id">
                         <div class="contact" v-if="notifications.type = 'App\Notifications\NewFriendRequest'">
                                 <h5 style="font-size:10px">{{notification.data}}</h5>
@@ -20,10 +20,14 @@
                                 <h5 style="font-size:10px">{{notification.data}}</h5>
                                 <h6 style="font-size:10px">{{notification.created_at}}</h6>
                         </div>
-                    </li>                  
+                    </li>
+                    <pagination :data="notifications" @pagination-change-page="getResults">
+                        <span slot="prev-nav">&lt; Previous</span>
+                        <span slot="next-nav">Next &gt;</span>
+                    </pagination>                      
                 </ul>
-            </div> 
-          </li>         
+            </div>
+          </li>      
       </div>
 </template>
 
@@ -66,10 +70,18 @@
                           console.log(notification.name);
                           console.log(this.incoming);
                     })  
-                } 
+                },
+                //pagination
+                getResults(page = 1) {
+                axios.get('/notification/?page=' + page)
+                     .then(response => {
+                        this.notifications = response.data;
+                    });
+		        } 
             },
 
             mounted() {
+                    this.getResults();
                     axios.get('/getnotyunread')
                     .then((response) => {
                     this.unreadCount = response.data;

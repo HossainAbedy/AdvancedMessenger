@@ -16,6 +16,7 @@ Vue.use(VueChatScroll)
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 Vue.use(Toaster, {timeout:5000})
+//events
 Vue.prototype.$eventBus = new Vue()
 /**
  * The following block of code may be used to automatically register your
@@ -34,6 +35,7 @@ Vue.component('Friendship', require('./components/Friendship.vue').default);
 Vue.component('message', require('./components/Message.vue').default);
 Vue.component('notification', require('./components/Notification.vue').default);
 Vue.component('incoming', require('./components/Incoming.vue').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 
 //file upload component

@@ -21,7 +21,7 @@ import Contactlist from './Contactlist';
                 selectedContact: null,
                 messages: [],
                 contacts:[],
-                users:[],
+                users:{},
             }; 
         },
         mounted() {

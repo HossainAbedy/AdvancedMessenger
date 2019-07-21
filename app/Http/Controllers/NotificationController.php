@@ -12,7 +12,7 @@ class NotificationController extends Controller
         $notification=DB::table('notifications')
                       ->where('notifiable_id', auth()->id())
                       ->orderBy('created_at', 'DESC')
-                      ->get();
+                      ->paginate(5);
         return response()->json($notification);     
         // $notifications=json_decode($notification,true);      
         //  foreach ($datas as $k => $data){
