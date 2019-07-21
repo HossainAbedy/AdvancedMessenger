@@ -29,13 +29,11 @@
                 :class="`message${message.to == contact.id ? ' sent' : ' received'}`" 
                 :key="message.id" @click="showtime">
                     <div id="drag1" class="text" draggable="true" @dragstart="drag(message,$event)" >
-                        <div v-if="message.replyText =! null" class="reply">
-                            <p style="color:red">replied:</p><p style="color:orange"><strong>{{message.replyText}}</strong></p><br>
+                        <div v-if="replyDiv && message.replyText != null" class="reply">
+                            <p style="color:red"><strong>Replied:</strong></p><p style="color:black;background:white">{{message.replyText}}</p><br>
                                 <span v-if="showtimechat"> {{message.created_at}}</span>
                         </div>
-                        <!-- <div v-else-if="replyText == null" class="text">    -->
                             {{message.text}}<br><span v-if="showtimechat"> {{message.created_at}}</span>
-                        <!-- </div> -->
                     </div>
                     <div id="drag3" class="image-container" draggable="true" @dragstart="drag($event)" >
                         <img v-if="message.image"  style="width:350px;height:350px" :src="'/storage/img/'+message.image" alt="">
@@ -105,11 +103,7 @@
                 this.draggingText = message.text;
                 this.draggingId = message.id;
                 this.$eventBus.$emit('reply',this.draggingText,this.draggingId);
-                if(this.replyDiv){
-                this.replyDiv =! this.replyDiv;
-                } 
-                console.log('response');
-                console.log(this.draggingText);
+                this.replyDiv=false;
             },
 
             drop(ev) {
@@ -257,8 +251,9 @@
                 }
                 .reply {
                     max-width: 200px;
+                    padding: 6px;
                     border-radius: 5px;
-                    padding: 12px;
+
                 }
                     &.sent{
                         text-align: right;
@@ -266,7 +261,7 @@
                             background: #b2b2b2;
                         }
                         .reply{
-                            background: #03f3bf;
+                            background: #99effa;
                         }
                     }
 
@@ -276,7 +271,7 @@
                             background: #81c4f9;
                         }
                         .reply{
-                            background: #dbeb06;
+                            background: #01ffea9b;
                         }
                     }
                 .drop{

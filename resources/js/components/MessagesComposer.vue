@@ -87,6 +87,9 @@ import 'emoji-mart-vue-fast/css/emoji-mart.css';
                else if(this.sendreply){
                     this.$emit('send',this.message);
                     this.$eventBus.$emit('sendReply',this.sendreply,this.reply,this.message,this.replyId);
+                    this.sendreply=false;
+                    this.replyId='';
+                    this.reply='';
                     this.message='';
                }
                else{

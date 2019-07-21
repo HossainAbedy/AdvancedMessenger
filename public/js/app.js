@@ -1992,8 +1992,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       globalmode: false,
       //replypart
-      draggingText: '',
-      draggingId: '',
       //updatareply
       replyStatus: false,
       replyText: '',
@@ -2374,6 +2372,9 @@ __webpack_require__.r(__webpack_exports__);
       } else if (this.sendreply) {
         this.$emit('send', this.message);
         this.$eventBus.$emit('sendReply', this.sendreply, this.reply, this.message, this.replyId);
+        this.sendreply = false;
+        this.replyId = '';
+        this.reply = '';
         this.message = '';
       } else {
         this.$emit('send', this.message);
@@ -2486,8 +2487,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contact: {
@@ -2548,13 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
       this.draggingText = message.text;
       this.draggingId = message.id;
       this.$eventBus.$emit('reply', this.draggingText, this.draggingId);
-
-      if (this.replyDiv) {
-        this.replyDiv = !this.replyDiv;
-      }
-
-      console.log('response');
-      console.log(this.draggingText);
+      this.replyDiv = false;
     },
     drop: function drop(ev) {
       var data = ev.dataTransfer.getData("Text");
@@ -7521,7 +7514,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message .reply[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent .reply[data-v-4b6ab3f5] {\n  background: #03f3bf;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}\n.feed ul li.message.received .reply[data-v-4b6ab3f5] {\n  background: #dbeb06;\n}\n.feed ul li.message .drop[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}", ""]);
+exports.push([module.i, ".feed[data-v-4b6ab3f5] {\n  background: #f0f0f0;\n  height: 100%;\n  max-height: 400px;\n  overflow: scroll;\n  overflow-x: hidden;\n}\n.feed ul[data-v-4b6ab3f5] {\n  list-style-type: none;\n  padding: 5px;\n}\n.feed ul li.message[data-v-4b6ab3f5] {\n  margin: 10px 0;\n  width: 100%;\n}\n.feed ul li.message .text[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}\n.feed ul li.message .reply[data-v-4b6ab3f5] {\n  max-width: 200px;\n  padding: 6px;\n  border-radius: 5px;\n}\n.feed ul li.message.sent[data-v-4b6ab3f5] {\n  text-align: right;\n}\n.feed ul li.message.sent .text[data-v-4b6ab3f5] {\n  background: #b2b2b2;\n}\n.feed ul li.message.sent .reply[data-v-4b6ab3f5] {\n  background: #99effa;\n}\n.feed ul li.message.received[data-v-4b6ab3f5] {\n  text-align: left;\n}\n.feed ul li.message.received .text[data-v-4b6ab3f5] {\n  background: #81c4f9;\n}\n.feed ul li.message.received .reply[data-v-4b6ab3f5] {\n  background: #01ffea9b;\n}\n.feed ul li.message .drop[data-v-4b6ab3f5] {\n  max-width: 200px;\n  border-radius: 5px;\n  padding: 12px;\n  display: inline-block;\n}", ""]);
 
 // exports
 
@@ -54429,16 +54422,19 @@ var render = function() {
                           }
                         },
                         [
-                          (message.replyText = !null)
+                          _vm.replyDiv && message.replyText != null
                             ? _c("div", { staticClass: "reply" }, [
-                                _c("p", { staticStyle: { color: "red" } }, [
-                                  _vm._v("replied:")
-                                ]),
-                                _c("p", { staticStyle: { color: "orange" } }, [
-                                  _c("strong", [
-                                    _vm._v(_vm._s(message.replyText))
-                                  ])
-                                ]),
+                                _vm._m(0, true),
+                                _c(
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      color: "black",
+                                      background: "white"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(message.replyText))]
+                                ),
                                 _c("br"),
                                 _vm._v(" "),
                                 _vm.showtimechat
@@ -54448,7 +54444,6 @@ var render = function() {
                                   : _vm._e()
                               ])
                             : _vm._e(),
-                          _vm._v(" "),
                           _vm._v(
                             "\n                        " + _vm._s(message.text)
                           ),
@@ -54496,7 +54491,16 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticStyle: { color: "red" } }, [
+      _c("strong", [_vm._v("Replied:")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -69792,7 +69796,7 @@ if (token) {
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "00adcd9768079769a7da",
+  key: "d2503347d755b9309403",
   cluster: "ap2",
   encrypted: true
 }); //notification
@@ -70655,8 +70659,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\mymessenger\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Advanced-MyMessenger\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

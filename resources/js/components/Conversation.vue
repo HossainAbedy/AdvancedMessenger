@@ -32,8 +32,6 @@
             return {
                 globalmode:false,
                 //replypart
-                draggingText:'',
-                draggingId:'',
                 //updatareply
                 replyStatus:false,
                 replyText:'',
