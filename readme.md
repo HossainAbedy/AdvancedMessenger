@@ -33,7 +33,7 @@ Real time communication made possible by using laravel echo to broadcast message
         10.Instal vue-chat-scroll
         11.Install vue-upload-component
         12.Install emoji-mart-vue-fast
-        
+        13.Install vue pagination
 
 
 
