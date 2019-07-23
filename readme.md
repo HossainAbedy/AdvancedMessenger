@@ -21,15 +21,15 @@ This is a realtime chatting application built with laravel framework and vue js.
 Real time communication made possible by using laravel echo to broadcast messages through specified channels and event/listeners for notification.Pusher js is used to track client events.This application can also be used for file sharing and user can send emoji along with text in real time.
 
 ## Installation
-        1.Clone the project in your root folder
-        2.Update composer
-        3.copy .env from .env-example
-        4.set up database credential in your .env file
-        5.Create a new app in pusher and set up app credentials in your .env file
-        6.Install pusher via composer(composer require pusher/pusher-php-server "~4.0")
-        7.Install fontawesome via npm(npm i --save @fortawesome/fontawesome-free)
-        8.Install v-toaster
-        9.Install vform
+        01.Clone the project in your root folder
+        02.Install composer
+        03.copy .env from .env-example(cp .env.example .env)
+        04.set up database credential in your .env file
+        05.Create a new app in pusher and set up app credentials in your .env file
+        06.Install pusher via composer(composer require pusher/pusher-php-server "~4.0")
+        07.Install fontawesome via npm(npm i --save @fortawesome/fontawesome-free)
+        08.Install v-toaster
+        09.Install vform
         10.Instal vue-chat-scroll
         11.Install vue-upload-component
         12.Install emoji-mart-vue-fast
